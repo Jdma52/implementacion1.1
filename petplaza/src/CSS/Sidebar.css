@@ -1,0 +1,223 @@
+/* Sidebar principal */
+.sidebar {
+  width: 250px;
+  background: #111827;
+  color: #fff;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  left: 0;
+  top: 0;
+  padding: 1rem;
+  transition: transform 0.3s ease;
+  z-index: 50;
+}
+
+/* Header del logo */
+.sidebar-header {
+  display: flex;
+  flex-direction: column; 
+  align-items: center; 
+  justify-content: center;
+  margin-bottom: 2rem;
+  cursor: pointer; 
+}
+
+.logo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sidebar-logo {
+  width: 60px; 
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 0.5rem;
+}
+
+.logo-text {
+  text-align: center;
+}
+
+.sidebar-title {
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+.sidebar-subtitle {
+  font-size: 0.85rem;
+  color: #9ca3af;
+}
+
+/* Menú */
+.sidebar-menu {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  overflow-y: auto; /* ✅ Permite scroll interno */
+  padding-right: 5px; /* ✅ Evita que el scroll tape el contenido */
+}
+
+/* Estilo del scroll */
+.sidebar-menu::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar-menu::-webkit-scrollbar-thumb {
+  background: #374151; /* gris oscuro */
+  border-radius: 3px;
+}
+
+.sidebar-menu::-webkit-scrollbar-thumb:hover {
+  background: #4b5563;
+}
+
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.6rem 1rem;
+  border-radius: 0.5rem;
+  color: #d1d5db;
+  text-decoration: none;
+  transition: background 0.3s, color 0.3s;
+}
+
+.sidebar-item:hover {
+  background: #1f2937;
+  color: #fff;
+}
+
+.sidebar-item.active {
+  background: #2563eb;
+  color: #fff;
+}
+
+/* Íconos PNG */
+.sidebar-icon {
+  width: 22px;
+  height: 22px;
+  margin-right: 10px;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.sidebar-item:hover .sidebar-icon {
+  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.6));
+}
+
+/* 🔹 Animación rebote */
+.sidebar-icon.bounce:hover {
+  animation: bounce 0.6s;
+}
+@keyframes bounce {
+  0%, 100% { transform: scale(1) translateY(0); }
+  30% { transform: scale(1.2) translateY(-3px); }
+  60% { transform: scale(0.9) translateY(2px); }
+}
+
+/* 🔹 Animación latido */
+.sidebar-icon.pulse:hover {
+  animation: pulse 0.8s infinite;
+}
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+/* 🔹 Animación giro */
+.sidebar-icon.spin:hover {
+  animation: spin 0.6s linear;
+}
+@keyframes spin {
+  from { transform: rotate(0deg) scale(1.1); }
+  to { transform: rotate(360deg) scale(1.1); }
+}
+
+/* Usuario */
+.sidebar-user {
+  background: #1f2937;
+  padding: 0.8rem;
+  border-radius: 0.6rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-top: auto;
+}
+
+.sidebar-user-avatar {
+  width: 40px;
+  height: 40px;
+  background: #10b981;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  color: white;
+  font-size: 1.1rem;
+}
+
+.sidebar-user-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.sidebar-user-role {
+  display: inline-block;
+  background: #a8a8a800; /* Azul */
+  color: #fff;
+  font-size: 0.55rem; /* ✅ Más pequeño */
+  font-weight: 500; /* ✅ No tan bold */
+  padding: 0px 0px; /* ✅ Menos padding */
+  border-radius: 3px; /* ✅ Más compacto */
+  margin-left: 6px;
+  position: relative;
+  top: -1px; /* ✅ Ajuste sutil de superposición */
+  letter-spacing: 0.10px; /* ✅ Más limpio en tamaño pequeño */
+}
+
+
+/* Botón hamburguesa */
+.hamburger-btn {
+  display: none;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  background: #111827;
+  border: none;
+  color: white;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  z-index: 100;
+  cursor: pointer;
+}
+
+/* Overlay */
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.3);
+  z-index: 40;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .hamburger-btn {
+    display: block;
+  }
+
+  .sidebar {
+    transform: translateX(-100%);
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+}
