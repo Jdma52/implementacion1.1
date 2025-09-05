@@ -1,0 +1,356 @@
+/* === CONTENEDOR PRINCIPAL === */
+.medical-container {
+  padding: 20px;
+  font-family: "Inter", sans-serif;
+  background: #f5f5f7;
+}
+
+/* === MODAL DE CONFIRMACIÓN === */
+.confirmation-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #00a884;
+  color: white;
+  padding: 16px 24px;
+  border-radius: 12px;
+  z-index: 3000;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgb(0 0 0 / 0.3);
+  animation: fadeInOut 6s forwards;
+}
+
+/* Animación de entrada/salida */
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -60%);
+  }
+  10% {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+  90% {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -40%);
+  }
+}
+
+/* === ENCABEZADO === */
+.medical-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.medical-header h1 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+/* === BOTÓN PRINCIPAL (Verde) === */
+.btn-primary {
+  background-color: #00a884;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: #008063;
+}
+
+/* === FILTROS === */
+.medical-filters {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.medical-filters select,
+.medical-filters input[type="text"] {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  flex: 1;
+  font-size: 1rem;
+}
+
+.search-box {
+  position: relative;
+  flex: 2;
+}
+
+.search-icon {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  color: #999;
+  pointer-events: none;
+}
+
+.search-box input {
+  padding-left: 32px;
+}
+
+/* === TARJETAS DE REGISTROS === */
+.records-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.record-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.05);
+  padding: 20px;
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.record-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.record-header h3 {
+  margin: 0;
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: #00a884;
+}
+
+.record-header span {
+  font-size: 0.8rem;
+  color: #555;
+}
+
+/* === BOTONES EN LAS TARJETAS === */
+.card-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.btn-edit,
+.btn-delete,
+.btn-export-pdf {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease;
+}
+
+/* Botón Editar */
+.btn-edit {
+  color: #00a884;
+}
+.btn-edit:hover {
+  background-color: #00a88422;
+}
+
+/* Botón Eliminar */
+.btn-delete {
+  color: #d44;
+}
+.btn-delete:hover {
+  background-color: #d4404022;
+}
+
+/* Botón Exportar PDF */
+.btn-export-pdf {
+  color: #00695c;
+}
+.btn-export-pdf:hover {
+  background-color: #00a88422;
+}
+
+/* === CUERPO DE LA TARJETA === */
+.record-body {
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.record-section {
+  margin-bottom: 8px;
+}
+
+.record-section h4 {
+  margin-bottom: 4px;
+  font-weight: 600;
+  color: #00a884;
+}
+
+.modified-msg {
+  font-style: italic;
+  font-size: 0.8rem;
+  color: #888;
+  margin-bottom: 4px;
+}
+
+/* Estado vacío */
+.empty-state {
+  font-size: 1.2rem;
+  color: #999;
+  text-align: center;
+  width: 100%;
+  margin-top: 40px;
+}
+
+/* === MODAL GENERAL === */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(20, 20, 20, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.modal {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  width: 440px;
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.3);
+  font-size: 0.9rem;
+}
+
+.modal-header h2 {
+  margin: 0 0 16px 0;
+  color: #00a884;
+  font-weight: 700;
+}
+
+.modal-body label {
+  display: block;
+  margin-top: 12px;
+  font-weight: 600;
+  color: #00a884;
+}
+
+.modal-body input[type="text"],
+.modal-body input[type="date"],
+.modal-body select,
+.modal-body textarea {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-top: 6px;
+  font-size: 1rem;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.modal-body textarea {
+  min-height: 60px;
+}
+
+.modal-buttons {
+  margin-top: 20px;
+}
+
+/* === BOTONES UNIFICADOS === */
+.unified-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+
+.unified-buttons button,
+.unified-buttons label.btn-export {
+  flex: 1;
+  height: 42px;
+  font-size: 1rem;
+  border-radius: 8px;
+  font-weight: 700;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+/* Botón Cancelar (Rojo) */
+.btn-cancel {
+  background-color: #e53935;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.btn-cancel:hover {
+  background-color: #c62828;
+}
+
+/* Botón Importar Imagen (Amarillo con texto blanco) */
+.btn-export {
+  background-color: #fdd835;
+  color: white !important;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: background-color 0.2s ease;
+}
+.btn-export:hover {
+  background-color: #fbc02d;
+}
+
+.btn-export input[type="file"] {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+/* Imagen preview */
+.image-preview {
+  margin-top: 16px;
+  max-width: 100%;
+  max-height: 180px;
+  object-fit: contain;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
+}
