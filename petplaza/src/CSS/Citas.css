@@ -1,35 +1,257 @@
 .citas-container {
-  width: 90%;
-  max-width: 800px;
-  margin: 20px auto;
-  font-family: Arial, sans-serif;
+  padding: 20px;
+  background: #f9fafb;
+  height: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.citas-container h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  color: #2c3e50;
-}
-
-.citas-lista {
+.citas-header {
   display: flex;
-  flex-direction: column;
-  gap: 15px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
 }
 
-.cita-card {
-  background-color: #ecf0f1;
-  border-left: 5px solid #3498db;
-  padding: 15px 20px;
+.Citas-title {
+  color: #1d1d1f;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.Citas-subtitulo {
+    font-size: 14px;
+  color: #6b7280;
+}
+
+.btn-nueva-cita {
+  background: #22c55e;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.btn-nueva-cita:hover{ 
+  background: #16a34a;
+  box-shadow: 0 0 8px lightgreen;
+}
+
+.citas-search {
+  margin: 10px 0;
+}
+
+.citas-search input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  outline: none;
+}
+
+.citas-search input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
+}
+
+.citas-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
   border-radius: 8px;
-  transition: transform 0.2s, box-shadow 0.2s;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  margin-top: 15px;
 }
 
-.cita-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+.citas-table th, .citas-table td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
 }
 
-.cita-card p {
-  margin: 5px 0;
+.citas-table th {
+  background: #f3f4f6;
+  font-weight: 600;
+  color: #374151;
+}
+
+.fecha-hora {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.hora {
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.estado-select {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  font-weight: bold;
+  cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+
+.estado-select.programada {
+  background-color: #ADD8E6;
+  color: #004085;
+}
+
+.estado-select.completada {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.estado-select.cancelada {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+
+.estado-select option {
+  background-color: #fff;
+  color: #000;
+}
+
+.acciones {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-editar, .btn-eliminar {
+  background: none;       
+  border: none;           
+  cursor: pointer;
+  font-size: 18px;
+  padding: 0;             
+  display: flex;          
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-editar:hover svg, .btn-eliminar:hover svg {
+  transform: scale(1.2);
+  transition: transform 0.2s;
+}
+
+
+.action-btn.edit:focus-within {
+  box-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
+}
+
+.action-btn.delete:hover,
+.action-btn.delete:focus-within {
+  transform: scale(1.1);
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: #fff;
+  border-radius: 6px;
+  padding: 1rem;
+  width: 100%;
+  max-width: 380px;
+  max-height: 85vh;
+  overflow-y: auto;
+  animation: fadeIn 0.3s ease;
+}
+
+.modal h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 20px;
+}
+
+.modal label {
+  display: block;
+  font-weight: 500;
+  line-height: 1.2;
+  margin-bottom: -5px;
+  font-size: 16px;
+}
+
+.modal input, .modal select .modal textarea {
+  width: 100%;
+  padding: 6px 8px;
+  font-size: 14px;
+  box-sizing: border-box;
+  margin: 6px 0;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  outline: none;
+}
+
+
+.modal input::placeholder,
+.modal textarea::placeholder {
+  font-size: 14px;
+  color: #999;
+  line-height: normal;
+}
+
+.modal input:focus, .modal select:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.btn-guardar {
+  background-color: #22c55e;
+  color: white;
+  padding: 8px 18px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.btn-guardar:hover {
+  background-color: #16a34a;
+}
+
+.btn-cancelar {
+  background-color: #dc2626;
+  color: white;
+  padding: 8px 18px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.btn-cancelar:hover {
+  background-color: #b91c1c;
+}
+
+
+.mensaje-exito {
+  background-color: #d4edda;
+  color: #155724;
+  padding: 10px 15px;
+  border-radius: 6px;
+  margin: 10px 0;
+  font-weight: bold;
+  text-align: center;
 }
