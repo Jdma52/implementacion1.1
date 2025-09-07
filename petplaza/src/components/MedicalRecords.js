@@ -18,6 +18,7 @@ const MedicalRecords = () => {
       treatment: "No se requiere tratamiento",
       notes: "Mascota en excelente estado de salud",
       vaccinesAdministered: [],
+      image: null,
       createdAt: new Date(),
       modifiedAt: null,
     },
@@ -29,6 +30,8 @@ const MedicalRecords = () => {
   const [editingRecord, setEditingRecord] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [confirmationMsg, setConfirmationMsg] = useState("");
+  const [showImageModal, setShowImageModal] = useState(false);
+  const [modalImageSrc, setModalImageSrc] = useState("");
 
   const [newRecord, setNewRecord] = useState({
     owner: "",
@@ -41,6 +44,7 @@ const MedicalRecords = () => {
     notes: "",
     vaccinesAdministered: [],
     vaccinesField: "",
+    image: null,
   });
 
   const pdfRef = useRef();
@@ -125,6 +129,7 @@ const MedicalRecords = () => {
       notes: "",
       vaccinesAdministered: [],
       vaccinesField: "",
+      image: null,
     });
     setEditingRecord(null);
     setShowModal(false);
@@ -134,6 +139,7 @@ const MedicalRecords = () => {
   const handleEditRecord = (record) => {
     setEditingRecord(record);
     setNewRecord({ ...record, vaccinesField: "" });
+    setImagePreview(record.image || null);
     setShowModal(true);
   };
 
@@ -151,14 +157,20 @@ const MedicalRecords = () => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = () => setImagePreview(reader.result);
+      reader.onload = () => {
+        setImagePreview(reader.result);
+        setNewRecord((prev) => ({ ...prev, image: reader.result }));
+        showTemporaryMessage("Imagen Importada Correctamente");
+      };
       reader.readAsDataURL(file);
-      setTimeout(() => showTemporaryMessage("Imagen exportada correctamente"), 500);
     }
   };
 
-  const handleExportPDF = async () => {
-    const input = pdfRef.current;
+  const handleExportPDF = async (record) => {
+    const input = document.getElementById(`record-${record.id}`);
+    // Ocultar botones antes de exportar
+    input.classList.add("pdf-hidden");
+
     const canvas = await html2canvas(input);
     const imgData = canvas.toDataURL("image/png");
 
@@ -180,7 +192,15 @@ const MedicalRecords = () => {
       heightLeft -= pageHeight;
     }
 
-    pdf.save("expedientes-clinicos.pdf");
+    pdf.save(`expediente-${record.pet}.pdf`);
+
+    // Restaurar botones después de exportar
+    input.classList.remove("pdf-hidden");
+  };
+
+  const handleImageClick = (src) => {
+    setModalImageSrc(src);
+    setShowImageModal(true);
   };
 
   return (
@@ -224,7 +244,7 @@ const MedicalRecords = () => {
 
       <div className="records-cards">
         {filteredRecords.map((r) => (
-          <div className="record-card" key={r.id}>
+          <div className="record-card" key={r.id} id={`record-${r.id}`}>
             <div className="record-header">
               <h3>Revisión general</h3>
               <span>
@@ -244,7 +264,10 @@ const MedicalRecords = () => {
                 >
                   <Trash2 size={16} /> Borrar
                 </button>
-                <button className="btn-pdf" onClick={handleExportPDF}>
+                <button
+                  className="btn-export-pdf"
+                  onClick={() => handleExportPDF(r)}
+                >
                   <FileDown size={16} /> Exportar PDF
                 </button>
               </div>
@@ -275,6 +298,17 @@ const MedicalRecords = () => {
                   ))}
                 </ul>
               </div>
+              {r.image && (
+                <div className="record-section">
+                  <h4>Imagen asociada</h4>
+                  <img
+                    src={r.image}
+                    alt="Expediente"
+                    className="record-image"
+                    onClick={() => handleImageClick(r.image)}
+                  />
+                </div>
+              )}
             </div>
           </div>
         ))}
@@ -300,7 +334,7 @@ const MedicalRecords = () => {
                 <option value="">Seleccionar mascota</option>
                 {records.map((r) => (
                   <option key={r.id} value={r.pet}>
-                    {r.pet} ({r.species}) - {r.owner}
+                    {r.pet} ({r.species})
                   </option>
                 ))}
               </select>
@@ -378,10 +412,7 @@ const MedicalRecords = () => {
                   Cancelar
                 </button>
 
-                <button
-                  className="btn-primary"
-                  onClick={handleAddOrUpdateRecord}
-                >
+                <button className="btn-primary" onClick={handleAddOrUpdateRecord}>
                   Guardar
                 </button>
 
@@ -400,6 +431,15 @@ const MedicalRecords = () => {
               )}
             </div>
           </div>
+        </div>
+      )}
+
+      {showImageModal && (
+        <div
+          className="image-modal-overlay active"
+          onClick={() => setShowImageModal(false)}
+        >
+          <img src={modalImageSrc} alt="Expediente Ampliado" className="image-modal" />
         </div>
       )}
     </div>
