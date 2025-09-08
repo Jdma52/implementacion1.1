@@ -8,13 +8,9 @@ import {
   User,
 } from "lucide-react";
 import {
-  BarChart,
-  Bar,
   PieChart,
   Pie,
   Cell,
-  XAxis,
-  YAxis,
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
@@ -39,15 +35,6 @@ const Dashboard = () => {
     { id: 2, name: "Alimento Premium", quantity: 5 },
     { id: 3, name: "Desparasitante", quantity: 2 },
   ]);
-
-  const appointmentsData = [
-    { month: "Ene", citas: 12 },
-    { month: "Feb", citas: 18 },
-    { month: "Mar", citas: 25 },
-    { month: "Abr", citas: 20 },
-    { month: "May", citas: 30 },
-    { month: "Jun", citas: 22 },
-  ];
 
   const petsData = [
     { name: "Perros", value: 25 },
@@ -108,42 +95,6 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Gráficos */}
-      <div className="charts-grid">
-        <div className="card card-hover">
-          <h2>Citas por Mes</h2>
-          <ResponsiveContainer width="90%" height={250}>
-            <BarChart data={appointmentsData}>
-              <XAxis dataKey="month" />
-              <YAxis />
-              <Tooltip />
-              <Bar dataKey="citas" fill="#6366f1" radius={[8, 8, 0, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-
-        <div className="card card-hover">
-          <h2>Distribución de Mascotas</h2>
-          <ResponsiveContainer width="100%" height={250}>
-            <PieChart>
-              <Pie
-                data={petsData}
-                cx="50%"
-                cy="50%"
-                outerRadius={80}
-                dataKey="value"
-                label
-              >
-                {petsData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index]} />
-                ))}
-              </Pie>
-              <Tooltip />
-            </PieChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
-
       {/* Listas */}
       <div className="lists-grid">
         <div className="card card-hover">
@@ -154,7 +105,9 @@ const Dashboard = () => {
                 <User className="list-icon" />
                 <div>
                   <p className="font-medium">{appointment.ownerName}</p>
-                  <p className="text-sm">{appointment.date} a las {appointment.time}</p>
+                  <p className="text-sm">
+                    {appointment.date} a las {appointment.time}
+                  </p>
                 </div>
               </li>
             ))}
@@ -175,6 +128,28 @@ const Dashboard = () => {
             ))}
           </ul>
         </div>
+      </div>
+
+      {/* Gráfico Pie Chart ocupando toda la fila inferior */}
+      <div className="card piechart-card">
+        <h2>Distribución de Mascotas</h2>
+        <ResponsiveContainer width="100%" height={250}>
+          <PieChart>
+            <Pie
+              data={petsData}
+              cx="50%"
+              cy="50%"
+              outerRadius={100}
+              dataKey="value"
+              label
+            >
+              {petsData.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={COLORS[index]} />
+              ))}
+            </Pie>
+            <Tooltip />
+          </PieChart>
+        </ResponsiveContainer>
       </div>
     </div>
   );
