@@ -12,13 +12,19 @@ const MedicalRecords = () => {
       owner: "Juan Pérez",
       pet: "Max",
       species: "Perro",
+      gender: "Macho",
+      breed: "Labrador",
+      weight: "10 kg",
+      color: "Marrón",
+      bloodDonor: "Sí",
+      ccToApply: "Ninguno",
       date: "2025-08-23",
       vet: "Dra. María González (Cardióloga)",
       diagnosis: "",
       treatment: "No se requiere tratamiento",
       notes: "Mascota en excelente estado de salud",
       vaccinesAdministered: [],
-      image: null,
+      images: [],
       createdAt: new Date(),
       modifiedAt: null,
     },
@@ -28,15 +34,25 @@ const MedicalRecords = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [editingRecord, setEditingRecord] = useState(null);
-  const [imagePreview, setImagePreview] = useState(null);
   const [confirmationMsg, setConfirmationMsg] = useState("");
-  const [showImageModal, setShowImageModal] = useState(false);
-  const [modalImageSrc, setModalImageSrc] = useState("");
+
+  const [imagePreview, setImagePreview] = useState([]);
+  const [deleteImageModal, setDeleteImageModal] = useState(false);
+  const [imageToDelete, setImageToDelete] = useState(null);
+
+  // Imagen en pantalla completa
+  const [fullScreenImage, setFullScreenImage] = useState(null);
 
   const [newRecord, setNewRecord] = useState({
     owner: "",
     pet: "",
     species: "",
+    gender: "",
+    breed: "",
+    weight: "",
+    color: "",
+    bloodDonor: "",
+    ccToApply: "",
     date: "",
     vet: "",
     diagnosis: "",
@@ -44,7 +60,7 @@ const MedicalRecords = () => {
     notes: "",
     vaccinesAdministered: [],
     vaccinesField: "",
-    image: null,
+    images: [],
   });
 
   const pdfRef = useRef();
@@ -56,6 +72,9 @@ const MedicalRecords = () => {
   ];
 
   const vaccines = ["Rabia", "Parvovirus", "Distemper", "Leptospirosis"];
+  const speciesOptions = ["Perro", "Gato", "Ave", "Conejo", "Otro"];
+  const genderOptions = ["Macho", "Hembra"];
+  const bloodDonorOptions = ["Sí", "No"];
 
   const filteredRecords = records.filter(
     (r) =>
@@ -72,7 +91,6 @@ const MedicalRecords = () => {
     if (name === "vaccinesField") {
       const dateTime = new Date().toLocaleString();
       const updatedVaccine = `${value} (${dateTime})`;
-
       setNewRecord((prev) => ({
         ...prev,
         vaccinesField: value,
@@ -122,6 +140,12 @@ const MedicalRecords = () => {
       owner: "",
       pet: "",
       species: "",
+      gender: "",
+      breed: "",
+      weight: "",
+      color: "",
+      bloodDonor: "",
+      ccToApply: "",
       date: "",
       vet: "",
       diagnosis: "",
@@ -129,17 +153,17 @@ const MedicalRecords = () => {
       notes: "",
       vaccinesAdministered: [],
       vaccinesField: "",
-      image: null,
+      images: [],
     });
     setEditingRecord(null);
     setShowModal(false);
-    setImagePreview(null);
+    setImagePreview([]);
   };
 
   const handleEditRecord = (record) => {
     setEditingRecord(record);
     setNewRecord({ ...record, vaccinesField: "" });
-    setImagePreview(record.image || null);
+    setImagePreview(record.images || []);
     setShowModal(true);
   };
 
@@ -154,21 +178,56 @@ const MedicalRecords = () => {
   };
 
   const handleExportImage = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        setImagePreview(reader.result);
-        setNewRecord((prev) => ({ ...prev, image: reader.result }));
-        showTemporaryMessage("Imagen Importada Correctamente");
-      };
-      reader.readAsDataURL(file);
+    const files = e.target.files;
+    if (files.length > 0) {
+      const readers = Array.from(files).map(
+        (file) =>
+          new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.readAsDataURL(file);
+          })
+      );
+
+      Promise.all(readers).then((images) => {
+        setImagePreview((prev) => [...prev, ...images]);
+        setNewRecord((prev) => ({ ...prev, images: [...prev.images, ...images] }));
+        showTemporaryMessage("Imagen(es) Importada(s) Correctamente");
+      });
     }
+  };
+
+  const handleDeleteImage = (recordId, img) => {
+    setImageToDelete({ recordId, img });
+    setDeleteImageModal(true);
+  };
+
+  const confirmDeleteImage = () => {
+    if (imageToDelete) {
+      const { recordId, img } = imageToDelete;
+      if (recordId === "new") {
+        setImagePreview((prev) => prev.filter((i) => i !== img));
+        setNewRecord((prev) => ({
+          ...prev,
+          images: prev.images.filter((i) => i !== img),
+        }));
+      } else {
+        setRecords((prev) =>
+          prev.map((r) =>
+            r.id === recordId
+              ? { ...r, images: r.images.filter((i) => i !== img) }
+              : r
+          )
+        );
+      }
+      showTemporaryMessage("Imagen Eliminada Correctamente");
+    }
+    setDeleteImageModal(false);
+    setImageToDelete(null);
   };
 
   const handleExportPDF = async (record) => {
     const input = document.getElementById(`record-${record.id}`);
-    // Ocultar botones antes de exportar
     input.classList.add("pdf-hidden");
 
     const canvas = await html2canvas(input);
@@ -192,21 +251,24 @@ const MedicalRecords = () => {
       heightLeft -= pageHeight;
     }
 
-    pdf.save(`expediente-${record.pet}.pdf`);
-
-    // Restaurar botones después de exportar
     input.classList.remove("pdf-hidden");
-  };
-
-  const handleImageClick = (src) => {
-    setModalImageSrc(src);
-    setShowImageModal(true);
+    pdf.save(`expediente-${record.pet}.pdf`);
   };
 
   return (
     <div className="medical-container" ref={pdfRef}>
       {confirmationMsg && (
         <div className="confirmation-modal">{confirmationMsg}</div>
+      )}
+
+      {/* Imagen en pantalla completa */}
+      {fullScreenImage && (
+        <div
+          className="image-modal-overlay active"
+          onClick={() => setFullScreenImage(null)}
+        >
+          <img src={fullScreenImage} className="image-modal" alt="Full Preview" />
+        </div>
       )}
 
       <div className="medical-header">
@@ -298,15 +360,27 @@ const MedicalRecords = () => {
                   ))}
                 </ul>
               </div>
-              {r.image && (
+              {r.images.length > 0 && (
                 <div className="record-section">
-                  <h4>Imagen asociada</h4>
-                  <img
-                    src={r.image}
-                    alt="Expediente"
-                    className="record-image"
-                    onClick={() => handleImageClick(r.image)}
-                  />
+                  <h4>Imágenes asociadas</h4>
+                  <div className="image-gallery">
+                    {r.images.map((img, idx) => (
+                      <div key={idx} className="image-container">
+                        <img
+                          src={img}
+                          alt="Expediente"
+                          className="record-image"
+                          onClick={() => setFullScreenImage(img)}
+                        />
+                        <button
+                          className="delete-image-btn"
+                          onClick={() => handleDeleteImage(r.id, img)}
+                        >
+                          <Trash2 size={14} />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               )}
             </div>
@@ -318,6 +392,7 @@ const MedicalRecords = () => {
         )}
       </div>
 
+      {/* Modal de creación / edición */}
       {showModal && (
         <div className="modal-overlay">
           <div className="modal">
@@ -325,16 +400,89 @@ const MedicalRecords = () => {
               <h2>{editingRecord ? "Editar" : "Nuevo"} Expediente Clínico</h2>
             </div>
             <div className="modal-body">
+              <label>Dueño</label>
+              <input
+                type="text"
+                name="owner"
+                placeholder="Nombre del dueño"
+                value={newRecord.owner}
+                onChange={handleInputChange}
+              />
+
               <label>Mascota</label>
-              <select
+              <input
+                type="text"
                 name="pet"
+                placeholder="Nombre de la mascota"
                 value={newRecord.pet}
                 onChange={handleInputChange}
+              />
+
+              <label>Especie</label>
+              <select
+                name="species"
+                value={newRecord.species}
+                onChange={handleInputChange}
               >
-                <option value="">Seleccionar mascota</option>
-                {records.map((r) => (
-                  <option key={r.id} value={r.pet}>
-                    {r.pet} ({r.species})
+                <option value="">Seleccionar especie</option>
+                {speciesOptions.map((s, idx) => (
+                  <option key={idx} value={s}>
+                    {s}
+                  </option>
+                ))}
+              </select>
+
+              <label>Género</label>
+              <select
+                name="gender"
+                value={newRecord.gender}
+                onChange={handleInputChange}
+              >
+                <option value="">Seleccionar género</option>
+                {genderOptions.map((g, idx) => (
+                  <option key={idx} value={g}>
+                    {g}
+                  </option>
+                ))}
+              </select>
+
+              <label>Raza</label>
+              <input
+                type="text"
+                name="breed"
+                placeholder="Raza de la mascota"
+                value={newRecord.breed}
+                onChange={handleInputChange}
+              />
+
+              <label>Peso</label>
+              <input
+                type="text"
+                name="weight"
+                placeholder="Peso de la mascota"
+                value={newRecord.weight}
+                onChange={handleInputChange}
+              />
+
+              <label>Color de Mascota</label>
+              <input
+                type="text"
+                name="color"
+                placeholder="Color de la mascota"
+                value={newRecord.color}
+                onChange={handleInputChange}
+              />
+
+              <label>Donante de Sangre</label>
+              <select
+                name="bloodDonor"
+                value={newRecord.bloodDonor}
+                onChange={handleInputChange}
+              >
+                <option value="">Seleccionar opción</option>
+                {bloodDonorOptions.map((b, idx) => (
+                  <option key={idx} value={b}>
+                    {b}
                   </option>
                 ))}
               </select>
@@ -386,7 +534,8 @@ const MedicalRecords = () => {
                 onChange={handleInputChange}
               />
 
-              <label>Vacunas</label>
+              {/* Campo de Vacuna */}
+              <label>Vacuna</label>
               <select
                 name="vaccinesField"
                 value={newRecord.vaccinesField || ""}
@@ -400,13 +549,23 @@ const MedicalRecords = () => {
                 ))}
               </select>
 
+              {/* Campo de CC */}
+              <label>CC a aplicar</label>
+              <input
+                type="text"
+                name="ccToApply"
+                placeholder="CC a aplicar"
+                value={newRecord.ccToApply}
+                onChange={handleInputChange}
+              />
+
               <div className="modal-buttons unified-buttons">
                 <button
                   className="btn-cancel"
                   onClick={() => {
                     setShowModal(false);
                     setEditingRecord(null);
-                    setImagePreview(null);
+                    setImagePreview([]);
                   }}
                 >
                   Cancelar
@@ -420,26 +579,54 @@ const MedicalRecords = () => {
                   Importar Imagen
                   <input
                     type="file"
+                    multiple
                     style={{ display: "none" }}
                     onChange={handleExportImage}
                   />
                 </label>
               </div>
 
-              {imagePreview && (
-                <img src={imagePreview} alt="Preview" className="image-preview" />
+              {imagePreview.length > 0 && (
+                <div className="image-gallery">
+                  {imagePreview.map((img, idx) => (
+                    <div key={idx} className="image-container">
+                      <img
+                        src={img}
+                        alt="Preview"
+                        className="image-preview"
+                        onClick={() => setFullScreenImage(img)}
+                      />
+                      <button
+                        className="delete-image-btn"
+                        onClick={() => handleDeleteImage("new", img)}
+                      >
+                        <Trash2 size={14} />
+                      </button>
+                    </div>
+                  ))}
+                </div>
               )}
             </div>
           </div>
         </div>
       )}
 
-      {showImageModal && (
-        <div
-          className="image-modal-overlay active"
-          onClick={() => setShowImageModal(false)}
-        >
-          <img src={modalImageSrc} alt="Expediente Ampliado" className="image-modal" />
+      {deleteImageModal && (
+        <div className="modal-overlay">
+          <div className="delete-confirmation">
+            <h3>¿Eliminar Imagen?</h3>
+            <div>
+              <button className="btn-accept" onClick={confirmDeleteImage}>
+                Aceptar
+              </button>
+              <button
+                className="btn-cancel-delete"
+                onClick={() => setDeleteImageModal(false)}
+              >
+                Cancelar
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>
