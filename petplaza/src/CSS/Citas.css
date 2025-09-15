@@ -1,238 +1,273 @@
+/* Contenedor principal de la sección de citas */
 .citas-container {
-  padding: 20px;
-  background: #f9fafb;
-  height: 100%;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 20px; /* Espaciado interno de 20px en todos los lados */
+  background: #f9fafb; /* Color de fondo gris muy claro */
+  height: 100%; /* Ocupa toda la altura disponible del contenedor padre */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Fuente para todo el contenido */
 }
 
+/* Cabecera de la sección de citas */
 .citas-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 15px;
+  display: flex; /* Usar flexbox para distribución de elementos */
+  align-items: center; /* Alinear verticalmente al centro */
+  justify-content: space-between; /* Separar título y botón al máximo */
+  margin-bottom: 15px; /* Espacio debajo del header */
 }
 
+/* Título principal de la sección de citas */
 .Citas-title {
-  color: #1d1d1f;
-  font-size: 22px;
-  font-weight: 600;
+  color: #1d1d1f; /* Color de texto negro suave */
+  font-size: 22px; /* Tamaño de fuente del título */
+  font-weight: 600; /* Grosor de la fuente */
 }
 
+/* Subtítulo debajo del título principal */
 .Citas-subtitulo {
-    font-size: 14px;
-  color: #6b7280;
+  font-size: 14px; /* Tamaño más pequeño */
+  color: #6b7280; /* Gris medio */
 }
 
+/* Botón para crear una nueva cita */
 .btn-nueva-cita {
-  background: #22c55e;
-  color: white;
-  border: none;
-  padding: 10px 18px;
-  border-radius: 6px;
-  font-weight: 500;
-  cursor: pointer;
+  background: #22c55e; /* Verde principal */
+  color: white; /* Texto blanco */
+  border: none; /* Sin borde */
+  padding: 10px 18px; /* Espaciado interno */
+  border-radius: 6px; /* Bordes redondeados */
+  font-weight: 500; /* Grosor de la fuente */
+  cursor: pointer; /* Cambia el cursor al pasar por encima */
+  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease; /* Animación suave para hover */
 }
 
-.btn-nueva-cita:hover{ 
-  background: #16a34a;
-  box-shadow: 0 0 8px lightgreen;
+/* Efecto hover del botón */
+.btn-nueva-cita:hover { 
+  background: #16a34a; /* Verde más oscuro */
+  box-shadow: 0 0 8px lightgreen; /* Sombra alrededor del botón */
+  transform: scale(1.05); /* Aumenta un poco su tamaño */
 }
 
+/* Contenedor del buscador */
 .citas-search {
-  margin: 10px 0;
+  margin: 10px 0; /* Separación arriba y abajo */
 }
 
+/* Input de búsqueda */
 .citas-search input {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #d1d5db;
-  border-radius: 4px;
-  outline: none;
+  width: 100%; /* Ocupa todo el ancho disponible */
+  padding: 10px; /* Espaciado interno */
+  border: 1px solid #d1d5db; /* Borde gris */
+  border-radius: 4px; /* Bordes ligeramente redondeados */
+  outline: none; /* Quita el contorno al seleccionar */
 }
 
+/* Estilo al enfocar el input */
 .citas-search input:focus {
-  border-color: #3b82f6;
-  box-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
+  border-color: #3b82f6; /* Cambia el borde a azul */
+  box-shadow: 0 0 8px rgba(59, 130, 246, 0.5); /* Sombra azul alrededor */
 }
 
+/* Tabla principal de citas */
 .citas-table {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-  margin-top: 15px;
+  width: 100%; /* Ocupa todo el ancho */
+  border-collapse: separate; /* Separar bordes */
+  border-spacing: 0; /* Sin espacio entre celdas */
+  border-radius: 8px; /* Bordes redondeados */
+  overflow: hidden; /* Evita que el contenido se salga del borde */
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* Sombra ligera */
+  margin-top: 15px; /* Espacio arriba */
 }
 
+/* Celdas de la tabla */
 .citas-table th, .citas-table td {
-  padding: 12px 16px;
-  text-align: left;
-  border-bottom: 1px solid #e5e7eb;
+  padding: 12px 16px; /* Espaciado interno */
+  text-align: left; /* Alinear texto a la izquierda */
+  border-bottom: 1px solid #e5e7eb; /* Línea divisoria */
 }
 
+/* Encabezados de la tabla */
 .citas-table th {
-  background: #f3f4f6;
-  font-weight: 600;
-  color: #374151;
+  background: #f3f4f6; /* Fondo gris claro */
+  font-weight: 600; /* Texto en negrita */
+  color: #374151; /* Gris oscuro */
 }
 
+/* Contenedor de fecha y hora dentro de la tabla */
 .fecha-hora {
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 14px; /* Tamaño del texto */
+  font-weight: 500; /* Grosor medio */
 }
 
+/* Hora específica */
 .hora {
-  color: #6b7280;
-  font-size: 13px;
+  color: #6b7280; /* Gris más claro */
+  font-size: 13px; /* Texto más pequeño */
 }
 
+/* Select para el estado de la cita */
 .estado-select {
-  padding: 6px 10px;
-  border-radius: 6px;
-  border: 1px solid #d1d5db;
-  font-weight: bold;
-  cursor: pointer;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
+  padding: 6px 10px; /* Espaciado interno */
+  border-radius: 6px; /* Bordes redondeados */
+  border: 1px solid #d1d5db; /* Borde gris */
+  font-weight: bold; /* Texto en negrita */
+  cursor: pointer; /* Cursor puntero */
+  -webkit-appearance: none; /* Quitar estilo nativo en Chrome/Safari */
+  -moz-appearance: none; /* Quitar estilo nativo en Firefox */
+  appearance: none; /* Quitar estilo nativo general */
 }
 
-
+/* Estados específicos */
 .estado-select.programada {
-  background-color: #ADD8E6;
-  color: #004085;
+  background-color: #ADD8E6; /* Azul claro */
+  color: #004085; /* Azul oscuro texto */
 }
 
 .estado-select.completada {
-  background-color: #d4edda;
-  color: #155724;
+  background-color: #d4edda; /* Verde pálido */
+  color: #155724; /* Verde oscuro texto */
 }
 
 .estado-select.cancelada {
-  background-color: #f8d7da;
-  color: #721c24;
+  background-color: #f8d7da; /* Rojo pálido */
+  color: #721c24; /* Rojo oscuro texto */
 }
 
-
+/* Opciones dentro del select */
 .estado-select option {
-  background-color: #fff;
-  color: #000;
+  background-color: #fff; /* Fondo blanco */
+  color: #000; /* Texto negro */
 }
 
+/* Contenedor de botones de acción (editar, eliminar) */
 .acciones {
-  display: flex;
-  gap: 8px;
+  display: flex; /* Flexbox */
+  gap: 8px; /* Separación entre botones */
 }
 
+/* Botones editar y eliminar */
 .btn-editar, .btn-eliminar {
-  background: none;       
-  border: none;           
-  cursor: pointer;
-  font-size: 18px;
-  padding: 0;             
-  display: flex;          
+  background: none; /* Sin fondo */
+  border: none; /* Sin borde */
+  cursor: pointer; /* Cursor puntero */
+  font-size: 18px; /* Tamaño del icono */
+  padding: 0; /* Sin padding */
+  display: flex; /* Flex para centrar icono */
   align-items: center;
   justify-content: center;
 }
 
+/* Efecto hover sobre los iconos */
 .btn-editar:hover svg, .btn-eliminar:hover svg {
-  transform: scale(1.2);
-  transition: transform 0.2s;
+  transform: scale(1.2); /* Aumenta tamaño */
+  transition: transform 0.2s; /* Animación suave */
 }
 
-
+/* Sombra al enfocar botón editar */
 .action-btn.edit:focus-within {
   box-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
 }
 
+/* Efecto hover/focus del botón eliminar */
 .action-btn.delete:hover,
 .action-btn.delete:focus-within {
   transform: scale(1.1);
 }
 
-/* Modal */
+/* Overlay del modal */
 .modal-overlay {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background-color: rgba(0,0,0,0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
+  position: fixed; /* Fijo en pantalla */
+  top: 0; left: 0; right: 0; bottom: 0; /* Ocupa toda la pantalla */
+  background-color: rgba(0,0,0,0.5); /* Fondo semi-transparente negro */
+  display: flex; /* Flexbox */
+  align-items: center; /* Centrar vertical */
+  justify-content: center; /* Centrar horizontal */
+  z-index: 1000; /* Sobre otros elementos */
 }
 
+/* Contenedor del modal */
 .modal {
-  background: #fff;
-  border-radius: 6px;
-  padding: 1rem;
-  width: 100%;
-  max-width: 380px;
-  max-height: 85vh;
-  overflow-y: auto;
-  animation: fadeIn 0.3s ease;
+  background: #fff; /* Fondo blanco */
+  border-radius: 6px; /* Bordes redondeados */
+  padding: 1rem; /* Espaciado interno */
+  width: 100%; /* Ancho total del contenedor padre */
+  max-width: 380px; /* Máximo ancho */
+  max-height: 85vh; /* Altura máxima 85% viewport */
+  overflow-y: auto; /* Scroll vertical si excede altura */
+  animation: fadeIn 0.3s ease forwards; /* Animación al aparecer */
 }
 
+/* Clase que se agrega al cerrar modal */
+.modal.closing {
+  animation: fadeOut 0.3s ease forwards; /* Animación de salida */
+}
+
+/* Título del modal */
 .modal h3 {
-  margin-top: 0;
-  margin-bottom: 15px;
-  font-size: 20px;
+  margin-top: 0; /* Sin margen arriba */
+  margin-bottom: 15px; /* Espacio debajo */
+  font-size: 20px; /* Tamaño del título */
 }
 
+/* Etiquetas dentro del modal */
 .modal label {
-  display: block;
-  font-weight: 500;
-  line-height: 1.2;
-  margin-bottom: -5px;
-  font-size: 16px;
+  display: block; /* Ocupa línea completa */
+  font-weight: 500; /* Texto semi-negrita */
+  line-height: 1.2; /* Altura de línea */
+  margin-bottom: -5px; /* Ajuste vertical */
+  font-size: 16px; /* Tamaño del texto */
 }
 
-.modal input, .modal select .modal textarea {
-  width: 100%;
-  padding: 6px 8px;
-  font-size: 14px;
-  box-sizing: border-box;
-  margin: 6px 0;
-  border-radius: 6px;
-  border: 1px solid #d1d5db;
-  outline: none;
+/* Inputs, selects y textareas dentro del modal */
+.modal input, .modal select, .modal textarea {
+  width: 100%; /* Ocupa todo el ancho */
+  padding: 6px 8px; /* Espaciado interno */
+  font-size: 14px; /* Tamaño del texto */
+  box-sizing: border-box; /* Incluye padding en ancho */
+  margin: 6px 0; /* Espacio arriba y abajo */
+  border-radius: 6px; /* Bordes redondeados */
+  border: 1px solid #d1d5db; /* Borde gris */
+  outline: none; /* Sin outline */
 }
 
-
+/* Placeholder dentro de inputs y textarea */
 .modal input::placeholder,
 .modal textarea::placeholder {
   font-size: 14px;
-  color: #999;
+  color: #999; /* Gris claro */
   line-height: normal;
 }
 
+/* Focus en inputs y selects */
 .modal input:focus, .modal select:focus {
-  border-color: #3b82f6;
-  box-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
+  border-color: #3b82f6; /* Azul */
+  box-shadow: 0 0 8px rgba(59, 130, 246, 0.5); /* Sombra azul */
 }
 
+/* Contenedor de botones dentro del modal */
 .modal-buttons {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; /* Separar botones */
   margin-top: 15px;
 }
 
+/* Botón guardar */
 .btn-guardar {
-  background-color: #22c55e;
-  color: white;
-  padding: 8px 18px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: bold;
+  background-color: #22c55e; /* Verde */
+  color: white; /* Texto blanco */
+  padding: 8px 18px; /* Espaciado interno */
+  border: none; /* Sin borde */
+  border-radius: 6px; /* Bordes redondeados */
+  cursor: pointer; /* Cursor puntero */
+  font-weight: bold; /* Texto en negrita */
 }
 
+/* Hover botón guardar */
 .btn-guardar:hover {
-  background-color: #16a34a;
+  background-color: #16a34a; /* Verde más oscuro */
 }
 
+/* Botón cancelar */
 .btn-cancelar {
-  background-color: #dc2626;
+  background-color: #dc2626; /* Rojo */
   color: white;
   padding: 8px 18px;
   border: none;
@@ -241,17 +276,53 @@
   font-weight: bold;
 }
 
+/* Hover botón cancelar */
 .btn-cancelar:hover {
-  background-color: #b91c1c;
+  background-color: #b91c1c; /* Rojo más oscuro */
 }
 
-
+/* Mensaje de éxito */
 .mensaje-exito {
-  background-color: #d4edda;
-  color: #155724;
+  background-color: #d4edda; /* Verde claro */
+  color: #155724; /* Verde oscuro */
   padding: 10px 15px;
   border-radius: 6px;
   margin: 10px 0;
   font-weight: bold;
-  text-align: center;
+  text-align: center; /* Centrado */
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); } /* Inicio: transparente y pequeño */
+  to { opacity: 1; transform: scale(1); } /* Fin: visible y tamaño normal */
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; transform: scale(1); } /* Inicio: visible */
+  to { opacity: 0; transform: scale(0.95); } /* Fin: transparente y pequeño */
+}
+
+/* Responsivo para pantallas menores a 768px */
+@media (max-width: 768px) {
+  .citas-header {
+    flex-direction: column; /* Apila verticalmente */
+    align-items: flex-start; /* Alinea a la izquierda */
+    gap: 8px; /* Espacio entre elementos */
+  }
+
+  .citas-table th, .citas-table td {
+    padding: 10px 8px; /* Reduce padding */
+    font-size: 13px; /* Reduce tamaño de texto */
+  }
+
+  .modal {
+    max-width: 95%; /* Casi ancho completo */
+    padding: 0.8rem; /* Reduce padding */
+  }
+
+  .btn-nueva-cita {
+    width: 100%; /* Ocupa todo el ancho */
+    text-align: center; /* Centrado texto */
+  }
 }
