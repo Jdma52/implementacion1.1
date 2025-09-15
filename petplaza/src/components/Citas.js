@@ -47,6 +47,22 @@ function Citas() {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [citaAEliminar, setCitaAEliminar] = useState(null);
 
+  // Listas de opciones
+  const dueñosDisponibles = ["Leonel Montecinos", "Jose David Martinez", "Ana López", "Carlos Ramírez"];
+  const mascotasDisponibles = ["Max", "Luna", "Toby", "Misha"];
+  const doctoresDisponibles = [
+    "Dra. Maria González - Medicina General",
+    "Dr. Carlos Rodríguez - Cirugía",
+    "Dra. Ana López - Dermatología",
+    "Dr. Jorge Martínez - Cardiología",
+    "Dra. Laura Hernández - Oftalmología",
+    "Dr. Roberto Silva - Traumatología",
+    "Dra. Patricia Morales - Neurología",
+    "Dr. Fernando Castro - Medicina Interna",
+    "Dra. Sofía Vargas - Reproducción",
+    "Dr. Miguel Torres - Medicina Felina",
+  ];
+
   useEffect(() => {
     localStorage.setItem("citas", JSON.stringify(citas));
   }, [citas]);
@@ -58,9 +74,7 @@ function Citas() {
   function handleSubmit(e) {
     e.preventDefault();
     if (editId !== null) {
-      setCitas(
-        citas.map((c) => (c.id === editId ? { ...nuevaCita, id: editId } : c))
-      );
+      setCitas(citas.map((c) => (c.id === editId ? { ...nuevaCita, id: editId } : c)));
       setMensaje("Cita editada con éxito");
       setEditId(null);
     } else {
@@ -78,7 +92,7 @@ function Citas() {
       estado: "Programada",
     });
 
-    setShowModal(false);
+    cerrarModal();
     setTimeout(() => setMensaje(""), 3000);
   }
 
@@ -99,13 +113,11 @@ function Citas() {
       setMensaje(`Cita de ${citaAEliminar.dueño} eliminada con éxito`);
       setTimeout(() => setMensaje(""), 3000);
     }
-    setCitaAEliminar(null);
-    setShowConfirmModal(false);
+    cerrarConfirmModal();
   }
 
   function handleCancelarEliminar() {
-    setCitaAEliminar(null);
-    setShowConfirmModal(false);
+    cerrarConfirmModal();
   }
 
   const citasFiltradas = citas.filter((cita) =>
@@ -133,6 +145,26 @@ function Citas() {
     }
   };
 
+  // Función para cerrar modal con animación
+  const cerrarModal = () => {
+    const modal = document.querySelector(".modal");
+    if (modal) {
+      modal.classList.add("closing");
+      setTimeout(() => setShowModal(false), 300);
+    }
+  };
+
+  const cerrarConfirmModal = () => {
+    const modal = document.querySelector(".modal");
+    if (modal) {
+      modal.classList.add("closing");
+      setTimeout(() => {
+        setShowConfirmModal(false);
+        setCitaAEliminar(null);
+      }, 300);
+    }
+  };
+
   return (
     <div className="citas-container">
       <div className="citas-header">
@@ -150,7 +182,7 @@ function Citas() {
 
       {mensaje && <div className="mensaje-exito">{mensaje}</div>}
 
-      <div className="search-box">
+      <div className="citas-search">
         <Search className="search-icon" />
         <input
           type="text"
@@ -200,7 +232,7 @@ function Citas() {
                     backgroundColor: getColorFondo(cita.estado),
                     color: getColorTexto(cita.estado),
                   }}
-                  className={`estado-select`}
+                  className="estado-select"
                 >
                   <option value="Programada">Programada</option>
                   <option value="Completada">Completada</option>
@@ -220,39 +252,36 @@ function Citas() {
         </tbody>
       </table>
 
-      
+      {/* Modal de Nueva/Editar Cita */}
       {showModal && (
         <div className="modal-overlay">
           <div className="modal">
             <h3>{editId !== null ? "Editar Cita" : "Nueva Cita"}</h3>
             <form onSubmit={handleSubmit}>
               <label>Dueño</label>
-              <input
-                type="text"
-                name="dueño"
-                placeholder="Nombre del dueño"
-                value={nuevaCita.dueño}
-                onChange={handleChange}
-                required
-              />
+              <select name="dueño" value={nuevaCita.dueño} onChange={handleChange} required>
+                <option value="">Seleccionar dueño</option>
+                {dueñosDisponibles.map((d) => (
+                  <option key={d} value={d}>{d}</option>
+                ))}
+              </select>
+
               <label>Mascota</label>
-              <input
-                type="text"
-                name="mascota"
-                placeholder="Nombre de la mascota"
-                value={nuevaCita.mascota}
-                onChange={handleChange}
-                required
-              />
+              <select name="mascota" value={nuevaCita.mascota} onChange={handleChange} required>
+                <option value="">Seleccionar mascota</option>
+                {mascotasDisponibles.map((m) => (
+                  <option key={m} value={m}>{m}</option>
+                ))}
+              </select>
+
               <label>Doctor</label>
-              <input
-                type="text"
-                name="doctor"
-                placeholder="Nombre del doctor"
-                value={nuevaCita.doctor}
-                onChange={handleChange}
-                required
-              />
+              <select name="doctor" value={nuevaCita.doctor} onChange={handleChange} required>
+                <option value="">Seleccionar médico</option>
+                {doctoresDisponibles.map((doc) => (
+                  <option key={doc} value={doc}>{doc}</option>
+                ))}
+              </select>
+
               <label>Motivo</label>
               <input
                 type="text"
@@ -262,34 +291,18 @@ function Citas() {
                 onChange={handleChange}
                 required
               />
+
               <label>Fecha</label>
-              <input
-                type="date"
-                name="fecha"
-                value={nuevaCita.fecha}
-                onChange={handleChange}
-                required
-              />
+              <input type="date" name="fecha" value={nuevaCita.fecha} onChange={handleChange} required />
+
               <label>Hora</label>
-              <input
-                type="time"
-                name="hora"
-                value={nuevaCita.hora}
-                onChange={handleChange}
-                required
-              />
+              <input type="time" name="hora" value={nuevaCita.hora} onChange={handleChange} required />
+
               <div className="modal-buttons">
                 <button type="submit" className="btn-guardar">
                   {editId !== null ? "Guardar Cambios" : "Guardar"}
                 </button>
-                <button
-                  type="button"
-                  className="btn-cancelar"
-                  onClick={() => {
-                    setShowModal(false);
-                    setEditId(null);
-                  }}
-                >
+                <button type="button" className="btn-cancelar" onClick={cerrarModal}>
                   Cancelar
                 </button>
               </div>
@@ -298,12 +311,12 @@ function Citas() {
         </div>
       )}
 
-    
+      {/* Modal de Confirmar Eliminación */}
       {showConfirmModal && (
         <div className="modal-overlay">
           <div className="modal">
             <h3>Confirmar Eliminación</h3>
-            <p>¿Seguro que quieres eliminar la cita de {citaAEliminar.dueño}?</p>
+            <p>¿Seguro que quieres eliminar la cita de {citaAEliminar?.dueño}?</p>
             <div className="modal-buttons">
               <button className="btn-guardar" onClick={handleEliminarConfirmado}>
                 Sí, eliminar
