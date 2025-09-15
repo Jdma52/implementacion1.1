@@ -32,7 +32,7 @@ const Sidebar = () => {
     { icon: EventIcon, label: "Citas", path: "/appointments", anim: "bounce" },
     { icon: MedicalIcon, label: "Expedientes", path: "/medical-records", anim: "pulse" },
     { icon: InventoryIcon, label: "Inventario", path: "/inventory", anim: "spin" },
-    { icon: InvoiceDollarIcon, label: "Facturación", path: "/invoices", anim: "bounce" },
+    { icon: InvoiceDollarIcon, label: "Facturación", path: "/Facturacion", anim: "bounce" }, 
     { icon: ChartBarIcon, label: "Reportes", path: "/reports", anim: "pulse" },
     { icon: UserTieIcon, label: "Usuarios", path: "/users", anim: "spin" },
   ];
