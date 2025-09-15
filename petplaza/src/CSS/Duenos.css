@@ -1,0 +1,392 @@
+/* ==========================================================
+   CONTENEDOR GENERAL DE LA VISTA DE DUEÑOS
+   ========================================================== */
+.owners-container {
+  padding: 1rem; /* Espaciado interno del contenedor */
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; /* Fuente de todo el contenedor */
+  background: #f9fafb; /* Fondo gris claro */
+  color: #374151; /* Color de texto gris oscuro */
+}
+
+/* ==========================================================
+   HEADER (TÍTULO Y BOTÓN)
+   ========================================================== */
+.owners-header {
+  display: flex; /* Organiza título y botón en línea */
+  justify-content: space-between; /* Título a la izquierda, botón a la derecha */
+  align-items: center; /* Centrado vertical */
+  margin-bottom: 0.8rem; /* Separación inferior */
+}
+
+.owners-title {
+  font-size: 1.1rem; /* Tamaño de fuente del título */
+  font-weight: 600; /* Negrita */
+  margin: 0; /* Sin márgenes */
+  color: #111827; /* Negro intenso */
+}
+
+.owners-subtitle {
+  font-size: 0.8rem; /* Tamaño de subtítulo */
+  color: #6b7280; /* Gris medio */
+  margin: 0.2rem 0 0; /* Margen superior leve */
+}
+
+/* ==========================================================
+   BOTONES GENERALES
+   ========================================================== */
+.btn-primary,
+.modal-actions .btn-secondary {
+  padding: 0.4rem 0.8rem; /* Espaciado interno */
+  border-radius: 6px; /* Bordes redondeados */
+  display: flex; /* Para ícono + texto */
+  align-items: center; /* Centrado vertical */
+  gap: 0.4rem; /* Espacio entre ícono y texto */
+  font-size: 0.85rem; /* Tamaño de texto */
+  font-weight: 500; /* Semi-negrita */
+  cursor: pointer; /* Manito al pasar */
+  transition: all 0.3s ease; /* Suaviza efectos hover */
+  border: 1px solid transparent; /* Base para bordes */
+}
+
+/* Botón verde principal (ej. "Nuevo dueño") */
+.btn-primary {
+  background: #00a884; /* Verde fuerte */
+  color: #fff; /* Texto blanco */
+  border: none; /* Sin borde */
+  border-radius: 12px;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  box-shadow: 0 0 10px rgba(4, 255, 96, 0.842); /* Brillo verde al pasar */
+  transform: translateY(-2px); /* Elevación */
+  outline: none; /* Sin borde al enfocar */
+}
+
+/* ==========================================================
+   BOTÓN CANCELAR GENÉRICO EN MODAL
+   ========================================================== */
+.modal-actions .btn-secondary.cancel {
+  background: #c9c5c5; /* Fondo blanco */
+  border: 2px solid #b8b7b7; /* Contorno azul */
+  color: #000000; /* Texto azul */
+  transition: all 0.3s ease; /* Suaviza hover */
+}
+
+.modal-actions .btn-secondary.cancel:hover,
+.modal-actions .btn-secondary.cancel:focus {
+  box-shadow: 0 0 12px rgb(121, 72, 114); /* Sombra azul */
+  transform: translateY(-2px); /* Elevación */
+  outline: none; /* Sin outline */
+}
+
+/* ==========================================================
+   BUSCADOR
+   ========================================================== */
+.search-box {
+  display: flex; /* Organiza icono y input */
+  align-items: center; /* Centrado vertical */
+  background: #fff; /* Fondo blanco */
+  border: 1px solid #d1d5db; /* Borde gris claro */
+  border-radius: 6px; /* Bordes redondeados */
+  padding: 0.3rem 0.6rem; /* Espaciado interno */
+  margin-bottom: 0.8rem; /* Separación inferior */
+  max-width: 400px; /* Ancho máximo */
+  transition: all 0.3s ease; /* Suaviza hover */
+}
+
+.search-box:hover,
+.search-box:focus-within {
+  box-shadow: 0 0 8px rgba(59, 130, 246, 0.5); /* Brillo azul al pasar */
+  border-color: #3b82f6; /* Borde azul */
+}
+
+.search-box input {
+  border: none; /* Sin borde */
+  outline: none; /* Sin outline */
+  flex: 1; /* Ocupa todo el espacio disponible */
+  background: transparent; /* Fondo transparente */
+  font-size: 0.85rem; /* Tamaño de texto */
+  color: #374151; /* Texto gris oscuro */
+}
+
+.search-icon {
+  color: #6b7280; /* Gris medio */
+  margin-right: 0.4rem; /* Separación del input */
+}
+
+/* ==========================================================
+   TABLA DE DUEÑOS
+   ========================================================== */
+.table-wrapper {
+  overflow-x: auto; /* Scroll horizontal si pantalla pequeña */
+}
+
+.owners-table {
+  width: 100%; /* Ancho completo */
+  border-collapse: separate; /* Separación entre filas */
+  border-spacing: 0 6px; /* Espacio vertical entre filas */
+  background: transparent;
+  table-layout: auto;
+}
+
+.owners-table th,
+.owners-table td {
+  padding: 0.5rem 0.8rem; /* Espaciado interno */
+  font-size: 0.8rem; /* Tamaño de texto */
+  text-align: left;
+  vertical-align: middle;
+  white-space: nowrap; /* Evita saltos de línea */
+}
+
+.owners-table th {
+  color: #6b7280; /* Gris medio */
+  font-weight: 600; /* Negrita */
+  font-size: 0.75rem; /* Tamaño más pequeño */
+  text-transform: uppercase; /* Mayúsculas */
+  letter-spacing: 0.03em; /* Separación letras */
+}
+
+.owners-table tr {
+  background: #fff; /* Fondo blanco */
+  border-radius: 6px; /* Bordes redondeados */
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05); /* Sombra ligera */
+}
+
+.owners-table td {
+  color: #374151; /* Texto gris oscuro */
+  border-top: 1px solid #f0f0f0; /* Separador superior */
+  border-bottom: 1px solid #f0f0f0; /* Separador inferior */
+}
+
+.owners-table td:first-child {
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+}
+
+.owners-table td:last-child {
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+/* ==========================================================
+   AVATAR E INFO DEL DUEÑO
+   ========================================================== */
+.owner-info {
+  display: flex; /* Para avatar + nombre */
+  align-items: center; /* Centrado vertical */
+  gap: 0.4rem; /* Separación entre avatar y nombre */
+}
+
+.owner-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%; /* Circular */
+  background: #dcfce7; /* Verde pálido */
+  color: #15803d; /* Verde oscuro texto */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* ==========================================================
+   ACCIONES (EDITAR Y ELIMINAR)
+   ========================================================== */
+.action-buttons {
+  display: flex; /* Para botones en fila */
+  gap: 0.3rem; /* Separación entre botones */
+}
+
+.action-btn {
+  border: none;
+  cursor: pointer;
+  padding: 0.3rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+}
+
+/* Botón Editar */
+.action-btn.edit {
+  background: #e0f2fe; /* Azul claro */
+  color: #0369a1; /* Azul oscuro texto */
+}
+.action-btn.edit:hover,
+.action-btn.edit:focus {
+  transform: scale(1.15);
+  box-shadow: 0 0 8px rgba(17, 153, 226, 0.9);
+}
+
+/* Botón Eliminar */
+.action-btn.delete {
+  background: #fee2e2; /* Rojo pálido */
+  color: #f80101; /* Rojo intenso */
+}
+.action-btn.delete:hover,
+.action-btn.delete:focus {
+  transform: scale(1.1);
+  box-shadow: 0 0 6px rgba(255, 2, 2, 0.8);
+}
+
+/* Estado vacío */
+.empty-state {
+  text-align: center;
+  padding: 0.8rem;
+  font-style: italic;
+  font-size: 0.85rem;
+  color: #57484886;
+}
+
+/* ==========================================================
+   MODAL GENERAL (FORMULARIOS Y CONFIRMACIÓN)
+   ========================================================== */
+.modal-overlay {
+  position: fixed; /* Fijo en pantalla */
+  inset: 0; /* Cubre toda la pantalla */
+  background: rgba(0,0,0,0.4); /* Fondo semitransparente */
+  display: flex; /* Flex para centrar contenido */
+  align-items: center;
+  justify-content: center;
+  z-index: 50; /* Por encima de todo */
+}
+
+.modal {
+  background: #fff; /* Fondo blanco */
+  border-radius: 6px; /* Bordes redondeados */
+  padding: 1rem; /* Espaciado interno */
+  width: 100%;
+  max-width: 380px;
+  max-height: 85vh; /* Scroll si excede altura */
+  overflow-y: auto;
+  animation: fadeIn 0.3s ease; /* Animación al abrir */
+}
+
+.modal.closing {
+  animation: fadeOut 0.3s ease forwards; /* Animación al cerrar */
+}
+
+.modal h2 {
+  margin: 0 0 0.8rem 0;
+  font-size: 1rem;
+}
+
+.modal label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  font-size: 0.8rem;
+  margin-bottom: 0.6rem;
+}
+
+.modal input,
+.modal textarea {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 0.4rem;
+  font-size: 0.85rem;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.4rem;
+}
+
+/* ==========================================================
+   MODAL DE CONFIRMACIÓN ELIMINAR (NUEVO ESTILO)
+   ========================================================== */
+.delete-modal h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #065f46; /* Verde oscuro */
+}
+
+.delete-modal p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #374151; /* Gris oscuro */
+  line-height: 1.4;
+}
+
+.delete-modal .modal-actions {
+  display: flex; /* Flex fila */
+  justify-content: center; /* Centra botones */
+  gap: 0.6rem; /* Separación */
+}
+
+/* Botón "Sí, eliminar" */
+.delete-modal .btn-danger {
+  background-color: #0cca6b; /* Verde no tan oscuro */
+  color: #fff; /* Texto blanco */
+  border: 2px solid transparent; /* Base para borde */
+  padding: 0.5rem 0.9rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.delete-modal .btn-danger:hover {
+  background-color: #bbf7d0; /* Verde pálido */
+  color: #065f46; /* Texto verde oscuro */
+  border: 2px solid #065f46; /* Contorno verde oscuro */
+  box-shadow: 0 0 8px #065f46; /* Sombra verde oscuro */
+  transform: translateY(-1px);
+}
+
+/* Botón "Cancelar" */
+.delete-modal .btn-cancel-alt {
+  background-color: #d1d5db; /* Gris base */
+  color: #374151; /* Texto gris oscuro */
+  border: 2px solid transparent;
+  padding: 0.5rem 0.9rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.delete-modal .btn-cancel-alt:hover {
+  background-color: #f3f4f6; /* Gris claro */
+  color: #1e40af; /* Azul oscuro */
+  border: 2px solid #1e40af; /* Contorno azul oscuro */
+  box-shadow: 0 0 6px #3b82f6; /* Sombra azul clara */
+  transform: translateY(-1px);
+}
+
+/* ==========================================================
+   ANIMACIONES
+   ========================================================== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(-10px); }
+}
+
+/* ==========================================================
+   RESPONSIVO
+   ========================================================== */
+@media (max-width: 768px) {
+  .owners-header {
+    flex-direction: column; /* Título y botón vertical */
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  .btn-primary {
+    align-self: flex-end;
+  }
+  .owners-table th,
+  .owners-table td {
+    font-size: 0.75rem; /* Texto más pequeño */
+    padding: 0.4rem;
+  }
+}
