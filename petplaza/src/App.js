@@ -8,6 +8,7 @@ import Users from "./components/Users";
 import Dueños from "./components/Dueños";
 import Mascotas from "./components/Mascotas";
 import Citas from "./components/Citas";
+import Facturacion from "./components/Facturacion"
 
 function App() {
   const [user, setUser] = useState(null);
