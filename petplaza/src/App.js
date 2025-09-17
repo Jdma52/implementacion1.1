@@ -8,6 +8,7 @@ import Users from "./components/Users";
 import Dueños from "./components/Dueños";
 import Mascotas from "./components/Mascotas";
 import Citas from "./components/Citas";
+import MedicalRecords from "./components/MedicalRecords"; 
 import Facturacion from "./components/Facturacion"
 import Inventory from "./components/Inventory"; 
 
@@ -56,11 +57,11 @@ function App() {
             <Route path="owners" element={<Dueños />} />
             <Route path="pets" element={<Mascotas />} />
             <Route path="inventory" element={<Inventory />} />
+            <Route path="appointments" element={<Citas />} />
+            <Route path="medical-records" element={<MedicalRecords />} />
+            <Route path="Facturacion" element={<Facturacion />} />
 
             {/* Rutas placeholder para que Sidebar no rompa */}
-            <Route path="appointments" element={<Citas />} />
-            <Route path="medical-records" element={<h1>Expedientes (pendiente)</h1>} />
-            <Route path="Facturacion" element={<Facturacion />} />
             <Route path="reports" element={<h1>Reportes (pendiente)</h1>} />
           </Route>
         </Routes>
