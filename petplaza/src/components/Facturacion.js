@@ -153,7 +153,7 @@ const Facturacion = ({ dueñosData, mascotasData }) => {
     doc.setFontSize(12);
     doc.setTextColor(100, 100, 100);
     doc.text("Sistema de Gestión Veterinaria", 105, 28, { align: "center" });
-    doc.text("Tegucigalpa, Honduras - Tel: +504 2234-5678", 105, 35, { align: "center" });
+    doc.text("Tegucigalpa, Ave. La Paz - Tel: +504 2242-5850", 105, 35, { align: "center" });
     
     // Línea separadora
     doc.setDrawColor(200, 200, 200);
@@ -243,7 +243,6 @@ const Facturacion = ({ dueñosData, mascotasData }) => {
           <h1 className="facturacion-title"><FileText size={22} /> Gestión de Facturación</h1>
           <p className="facturacion-subtitle">Administrar facturas y pagos</p>
         </div>
-        <button className="btn-primary" onClick={() => setShowModal(true)}><Plus size={18} /> Nueva Factura</button>
       </div>
 
       <div className="stats-grid">
@@ -253,9 +252,14 @@ const Facturacion = ({ dueñosData, mascotasData }) => {
         <div className="stats-card"><div className="stats-icon"><Calendar size={20} /></div><div><p className="stats-number">{facturasPendientes}</p><p className="stats-label">Facturas Pendientes</p></div></div>
       </div>
 
-      <div className="search-box">
-        <Search className="search-icon" size={18} />
-        <input type="text" placeholder="Buscar por número, cliente o mascota" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+      <div className="search-button-container">
+        <div className="search-box">
+          <Search className="search-icon" size={18} />
+          <input type="text" placeholder="Buscar por número, cliente o mascota" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+        </div>
+        <button className="btn-primary btn-flash" onClick={() => setShowModal(true)}>
+          <Plus size={18} /> Nueva Factura
+        </button>
       </div>
       
       <div className="table-container">
