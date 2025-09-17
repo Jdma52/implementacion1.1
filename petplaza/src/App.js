@@ -60,7 +60,6 @@ function App() {
             {/* Rutas placeholder para que Sidebar no rompa */}
             <Route path="appointments" element={<Citas />} />
             <Route path="medical-records" element={<h1>Expedientes (pendiente)</h1>} />
-            <Route path="inventory" element={<h1>Inventario (pendiente)</h1>} />
             <Route path="Facturacion" element={<Facturacion />} />
             <Route path="reports" element={<h1>Reportes (pendiente)</h1>} />
           </Route>
