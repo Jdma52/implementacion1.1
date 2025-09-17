@@ -9,6 +9,7 @@ import Dueños from "./components/Dueños";
 import Mascotas from "./components/Mascotas";
 import Citas from "./components/Citas";
 import Facturacion from "./components/Facturacion"
+import Inventory from "./components/Inventory"; 
 
 function App() {
   const [user, setUser] = useState(null);
@@ -54,6 +55,7 @@ function App() {
             <Route path="users" element={<Users user={user} />} />
             <Route path="owners" element={<Dueños />} />
             <Route path="pets" element={<Mascotas />} />
+            <Route path="inventory" element={<Inventory />} />
 
             {/* Rutas placeholder para que Sidebar no rompa */}
             <Route path="appointments" element={<Citas />} />
