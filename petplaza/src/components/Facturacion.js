@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { 
   Plus, Search, Trash2, Download, FileText, User, 
   PawPrint, CreditCard, Calendar, DollarSign, Eye, X,
-  MinusCircle, PlusCircle, Printer
+  MinusCircle, PlusCircle, Printer, AlertCircle, Check, XCircle
 } from "lucide-react";
 import "../CSS/Facturacion.css";
 
@@ -33,7 +33,11 @@ const Facturacion = ({ dueñosData, mascotasData }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [showDetalleModal, setShowDetalleModal] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [facturaSeleccionada, setFacturaSeleccionada] = useState(null);
+  const [facturaAEliminar, setFacturaAEliminar] = useState(null);
+  const [showNotification, setShowNotification] = useState(false);
+  const [notificationMessage, setNotificationMessage] = useState("");
   const [formData, setFormData] = useState({
     cliente: "",
     mascota: "",
@@ -74,6 +78,15 @@ const Facturacion = ({ dueñosData, mascotasData }) => {
   const totalFacturado = facturas.reduce((acc, f) => acc + f.total, 0);
   const facturasPagadas = facturas.filter(f => f.estado === "Pagado").length;
   const facturasPendientes = totalFacturas - facturasPagadas;
+
+  // Mostrar notificación
+  const mostrarNotificacion = (mensaje) => {
+    setNotificationMessage(mensaje);
+    setShowNotification(true);
+    setTimeout(() => {
+      setShowNotification(false);
+    }, 3000);
+  };
 
   // Lógica para manejar items en nueva factura
   const handleAddItem = (item, type) => {
@@ -125,6 +138,7 @@ const Facturacion = ({ dueñosData, mascotasData }) => {
     setFacturas([nuevaFactura, ...facturas]);
     setShowModal(false);
     setFormData({ cliente: "", mascota: "", rtn: "", servicios: [], productos: [], subtotal: 0, impuesto: 0, total: 0, metodoPago: "" });
+    mostrarNotificacion("Factura creada exitosamente");
   };
 
   const handleDetalleFactura = (factura) => {
@@ -132,12 +146,25 @@ const Facturacion = ({ dueñosData, mascotasData }) => {
     setShowDetalleModal(true);
   };
   
-  const handleDelete = (id) => {
-    if (window.confirm("¿Estás seguro de eliminar esta factura?")) setFacturas(facturas.filter(f => f.id !== id));
+  const confirmarEliminacion = (factura) => {
+    setFacturaAEliminar(factura);
+    setShowConfirmModal(true);
+  };
+  
+  const handleDelete = () => {
+    setFacturas(facturas.filter(f => f.id !== facturaAEliminar.id));
+    setShowConfirmModal(false);
+    mostrarNotificacion("Factura eliminada exitosamente");
+  };
+  
+  const cancelarEliminacion = () => {
+    setShowConfirmModal(false);
+    setFacturaAEliminar(null);
   };
 
   const cambiarEstado = (id) => {
     setFacturas(facturas.map(f => f.id === id ? { ...f, estado: f.estado === "Pagado" ? "Pendiente" : "Pagado" } : f));
+    mostrarNotificacion("Estado de factura actualizado");
   };
   
   const generarPDF = () => {
@@ -245,25 +272,25 @@ const Facturacion = ({ dueñosData, mascotasData }) => {
         </div>
       </div>
 
-      <div className="stats-grid">
-        <div className="stats-card"><div className="stats-icon"><FileText size={20} /></div><div><p className="stats-number">{totalFacturas}</p><p className="stats-label">Total Facturas</p></div></div>
-        <div className="stats-card"><div className="stats-icon"><DollarSign size={20} /></div><div><p className="stats-number">L {totalFacturado.toFixed(2)}</p><p className="stats-label">Total Facturado</p></div></div>
-        <div className="stats-card"><div className="stats-icon"><CreditCard size={20} /></div><div><p className="stats-number">{facturasPagadas}</p><p className="stats-label">Facturas Pagadas</p></div></div>
-        <div className="stats-card"><div className="stats-icon"><Calendar size={20} /></div><div><p className="stats-number">{facturasPendientes}</p><p className="stats-label">Facturas Pendientes</p></div></div>
+      <div className="facturacion-stats-grid">
+        <div className="facturacion-stats-card"><div className="facturacion-stats-icon"><FileText size={20} /></div><div><p className="facturacion-stats-number">{totalFacturas}</p><p className="facturacion-stats-label">Total Facturas</p></div></div>
+        <div className="facturacion-stats-card"><div className="facturacion-stats-icon"><DollarSign size={20} /></div><div><p className="facturacion-stats-number">L {totalFacturado.toFixed(2)}</p><p className="facturacion-stats-label">Total Facturado</p></div></div>
+        <div className="facturacion-stats-card"><div className="facturacion-stats-icon"><CreditCard size={20} /></div><div><p className="facturacion-stats-number">{facturasPagadas}</p><p className="facturacion-stats-label">Facturas Pagadas</p></div></div>
+        <div className="facturacion-stats-card"><div className="facturacion-stats-icon"><Calendar size={20} /></div><div><p className="facturacion-stats-number">{facturasPendientes}</p><p className="facturacion-stats-label">Facturas Pendientes</p></div></div>
       </div>
 
-      <div className="search-button-container">
-        <div className="search-box">
-          <Search className="search-icon" size={18} />
+      <div className="facturacion-search-button-container">
+        <div className="facturacion-search-box">
+          <Search className="facturacion-search-icon" size={18} />
           <input type="text" placeholder="Buscar por número, cliente o mascota" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
         </div>
-        <button className="btn-primary btn-flash" onClick={() => setShowModal(true)}>
+        <button className="facturacion-btn-primary facturacion-btn-flash" onClick={() => setShowModal(true)}>
           <Plus size={18} /> Nueva Factura
         </button>
       </div>
       
-      <div className="table-container">
-        <div className="table-wrapper">
+      <div className="facturacion-table-container">
+        <div className="facturacion-table-wrapper">
           <table className="facturacion-table">
             <thead>
               <tr>
@@ -280,25 +307,25 @@ const Facturacion = ({ dueñosData, mascotasData }) => {
             <tbody>
               {filteredFacturas.map(f => (
                 <tr key={f.id}>
-                  <td><div className="numero-factura"><FileText size={14} /> {f.numero}</div></td>
+                  <td><div className="facturacion-numero-factura"><FileText size={14} /> {f.numero}</div></td>
                   <td>{f.fecha}</td>
-                  <td><div className="cell-with-icon"><User size={14} /> {f.cliente}</div></td>
-                  <td><div className="cell-with-icon"><PawPrint size={14} /> {f.mascota}</div></td>
-                  <td className="total-amount">L {f.total.toFixed(2)}</td>
-                  <td><span className="metodo-pago-badge">{f.metodoPago}</span></td>
+                  <td><div className="facturacion-cell-with-icon"><User size={14} /> {f.cliente}</div></td>
+                  <td><div className="facturacion-cell-with-icon"><PawPrint size={14} /> {f.mascota}</div></td>
+                  <td className="facturacion-total-amount">L {f.total.toFixed(2)}</td>
+                  <td><span className="facturacion-metodo-pago-badge">{f.metodoPago}</span></td>
                   <td>
                     <button 
-                      className={`status-btn ${f.estado.toLowerCase()}`} 
+                      className={`facturacion-status-btn ${f.estado.toLowerCase()}`} 
                       onClick={() => cambiarEstado(f.id)}
                     >
                       {f.estado}
                     </button>
                   </td>
                   <td>
-                    <div className="action-buttons">
-                      <button className="action-btn view" title="Ver Detalle" onClick={() => handleDetalleFactura(f)}><Eye size={16} /></button>
-                      <button className="action-btn download" title="Descargar PDF" onClick={generarPDF}><Download size={16} /></button>
-                      <button className="action-btn delete" title="Eliminar" onClick={() => handleDelete(f.id)}><Trash2 size={16} /></button>
+                    <div className="facturacion-action-buttons">
+                      <button className="facturacion-action-btn view" title="Ver Detalle" onClick={() => handleDetalleFactura(f)}><Eye size={16} /></button>
+                      <button className="facturacion-action-btn download" title="Descargar PDF" onClick={generarPDF}><Download size={16} /></button>
+                      <button className="facturacion-action-btn delete" title="Eliminar" onClick={() => confirmarEliminacion(f)}><Trash2 size={16} /></button>
                     </div>
                   </td>
                 </tr>
@@ -310,15 +337,15 @@ const Facturacion = ({ dueñosData, mascotasData }) => {
 
       {/* MODAL NUEVA FACTURA */}
       {showModal && (
-        <div className="modal-overlay">
-          <div className="modal modal-lg">
-            <div className="modal-header">
+        <div className="facturacion-modal-overlay show">
+          <div className="facturacion-modal facturacion-modal-lg">
+            <div className="facturacion-modal-header">
               <h2>Nueva Factura</h2>
-              <button className="close-btn" onClick={() => setShowModal(false)}><X size={20} /></button>
+              <button className="facturacion-close-btn" onClick={() => setShowModal(false)}><X size={20} /></button>
             </div>
             <form onSubmit={handleSubmit}>
-              <div className="form-row">
-                <div className="form-group">
+              <div className="facturacion-form-row">
+                <div className="facturacion-form-group">
                   <label>Dueño</label>
                   <select 
                     value={formData.cliente} 
@@ -329,7 +356,7 @@ const Facturacion = ({ dueñosData, mascotasData }) => {
                     {clientes.map(c => <option key={c.id} value={c.nombre}>{c.nombre}</option>)}
                   </select>
                 </div>
-                <div className="form-group">
+                <div className="facturacion-form-group">
                   <label>Mascota</label>
                   <select 
                     value={formData.mascota} 
@@ -343,8 +370,8 @@ const Facturacion = ({ dueñosData, mascotasData }) => {
                 </div>
               </div>
               
-              <div className="form-row">
-                <div className="form-group">
+              <div className="facturacion-form-row">
+                <div className="facturacion-form-group">
                   <label>RTN (Opcional)</label>
                   <input
                     type="text"
@@ -353,7 +380,7 @@ const Facturacion = ({ dueñosData, mascotasData }) => {
                     onChange={(e) => setFormData({ ...formData, rtn: e.target.value })}
                   />
                 </div>
-                <div className="form-group">
+                <div className="facturacion-form-group">
                   <label>Método de pago</label>
                   <select 
                     value={formData.metodoPago} 
@@ -366,9 +393,9 @@ const Facturacion = ({ dueñosData, mascotasData }) => {
                 </div>
               </div>
               
-              <div className="form-section">
+              <div className="facturacion-form-section">
                 <h3>Servicios</h3>
-                <div className="items-selector">
+                <div className="facturacion-items-selector">
                   <select 
                     onChange={(e) => e.target.value && handleAddItem(servicios.find(s => s.id === parseInt(e.target.value)), 'servicios')}
                   >
@@ -378,22 +405,22 @@ const Facturacion = ({ dueñosData, mascotasData }) => {
                 </div>
                 
                 {formData.servicios.length > 0 && (
-                  <div className="items-list">
+                  <div className="facturacion-items-list">
                     <h4>Servicios agregados</h4>
                     {formData.servicios.map(item => (
-                      <div key={item.id} className="item-card">
-                        <div className="item-info">
-                          <div className="item-name">{item.nombre}</div>
-                          <div className="item-price">L {item.precio.toFixed(2)} c/u</div>
+                      <div key={item.id} className="facturacion-item-card">
+                        <div className="facturacion-item-info">
+                          <div className="facturacion-item-name">{item.nombre}</div>
+                          <div className="facturacion-item-price">L {item.precio.toFixed(2)} c/u</div>
                         </div>
-                        <div className="item-controls">
-                          <div className="quantity-control">
+                        <div className="facturacion-item-controls">
+                          <div className="facturacion-quantity-control">
                             <button type="button" onClick={() => handleUpdateQuantity(item.id, 'servicios', -1)}><MinusCircle size={16} /></button>
                             <span>{item.cantidad}</span>
                             <button type="button" onClick={() => handleUpdateQuantity(item.id, 'servicios', 1)}><PlusCircle size={16} /></button>
                           </div>
-                          <div className="item-total">L {(item.precio * item.cantidad).toFixed(2)}</div>
-                          <button type="button" className="remove-item-btn" onClick={() => handleRemoveItem(item.id, 'servicios')}><Trash2 size={14} /></button>
+                          <div className="facturacion-item-total">L {(item.precio * item.cantidad).toFixed(2)}</div>
+                          <button type="button" className="facturacion-remove-item-btn" onClick={() => handleRemoveItem(item.id, 'servicios')}><Trash2 size={14} /></button>
                         </div>
                       </div>
                     ))}
@@ -401,9 +428,9 @@ const Facturacion = ({ dueñosData, mascotasData }) => {
                 )}
               </div>
               
-              <div className="form-section">
+              <div className="facturacion-form-section">
                 <h3>Productos</h3>
-                <div className="items-selector">
+                <div className="facturacion-items-selector">
                   <select 
                     onChange={(e) => e.target.value && handleAddItem(productos.find(p => p.id === parseInt(e.target.value)), 'productos')}
                   >
@@ -413,22 +440,22 @@ const Facturacion = ({ dueñosData, mascotasData }) => {
                 </div>
                 
                 {formData.productos.length > 0 && (
-                  <div className="items-list">
+                  <div className="facturacion-items-list">
                     <h4>Productos agregados</h4>
                     {formData.productos.map(item => (
-                      <div key={item.id} className="item-card">
-                        <div className="item-info">
-                          <div className="item-name">{item.nombre}</div>
-                          <div className="item-price">L {item.precio.toFixed(2)} c/u</div>
+                      <div key={item.id} className="facturacion-item-card">
+                        <div className="facturacion-item-info">
+                          <div className="facturacion-item-name">{item.nombre}</div>
+                          <div className="facturacion-item-price">L {item.precio.toFixed(2)} c/u</div>
                         </div>
-                        <div className="item-controls">
-                          <div className="quantity-control">
+                        <div className="facturacion-item-controls">
+                          <div className="facturacion-quantity-control">
                             <button type="button" onClick={() => handleUpdateQuantity(item.id, 'productos', -1)}><MinusCircle size={16} /></button>
                             <span>{item.cantidad}</span>
                             <button type="button" onClick={() => handleUpdateQuantity(item.id, 'productos', 1)}><PlusCircle size={16} /></button>
                           </div>
-                          <div className="item-total">L {(item.precio * item.cantidad).toFixed(2)}</div>
-                          <button type="button" className="remove-item-btn" onClick={() => handleRemoveItem(item.id, 'productos')}><Trash2 size={14} /></button>
+                          <div className="facturacion-item-total">L {(item.precio * item.cantidad).toFixed(2)}</div>
+                          <button type="button" className="facturacion-remove-item-btn" onClick={() => handleRemoveItem(item.id, 'productos')}><Trash2 size={14} /></button>
                         </div>
                       </div>
                     ))}
@@ -436,15 +463,15 @@ const Facturacion = ({ dueñosData, mascotasData }) => {
                 )}
               </div>
               
-              <div className="form-totals">
-                <div className="total-row"><span>Subtotal:</span><span>L {formData.subtotal.toFixed(2)}</span></div>
-                <div className="total-row"><span>ISV (15%):</span><span>L {formData.impuesto.toFixed(2)}</span></div>
-                <div className="total-row grand-total"><span>Total:</span><span>L {formData.total.toFixed(2)}</span></div>
+              <div className="facturacion-form-totals">
+                <div className="facturacion-total-row"><span>Subtotal:</span><span>L {formData.subtotal.toFixed(2)}</span></div>
+                <div className="facturacion-total-row"><span>ISV (15%):</span><span>L {formData.impuesto.toFixed(2)}</span></div>
+                <div className="facturacion-total-row facturacion-grand-total"><span>Total:</span><span>L {formData.total.toFixed(2)}</span></div>
               </div>
               
-              <div className="modal-actions">
-                <button type="button" className="btn-secondary" onClick={() => setShowModal(false)}>Cancelar</button>
-                <button type="submit" className="btn-primary">Generar Factura</button>
+              <div className="facturacion-modal-actions">
+                <button type="button" className="facturacion-btn-secondary" onClick={() => setShowModal(false)}>Cancelar</button>
+                <button type="submit" className="facturacion-btn-primary">Generar Factura</button>
               </div>
             </form>
           </div>
@@ -453,51 +480,51 @@ const Facturacion = ({ dueñosData, mascotasData }) => {
 
       {/* MODAL VISTA PREVIA DE FACTURA */}
       {showDetalleModal && facturaSeleccionada && (
-        <div className="modal-overlay">
-          <div className="modal modal-lg factura-preview">
-            <div className="modal-header">
+        <div className="facturacion-modal-overlay show">
+          <div className="facturacion-modal facturacion-modal-lg facturacion-factura-preview">
+            <div className="facturacion-modal-header">
               <h2>Vista Previa de Factura</h2>
-              <div className="modal-actions">
-                <button className="btn-secondary" onClick={generarPDF}><Printer size={16} /> Imprimir</button>
-                <button className="close-btn" onClick={() => setShowDetalleModal(false)}><X size={20} /></button>
+              <div className="facturacion-modal-actions">
+                <button className="facturacion-btn-secondary" onClick={generarPDF}><Printer size={16} /> Imprimir</button>
+                <button className="facturacion-close-btn" onClick={() => setShowDetalleModal(false)}><X size={20} /></button>
               </div>
             </div>
             
-            <div className="factura-container">
-              <div className="factura-header">
-                <div className="factura-empresa">
+            <div className="facturacion-factura-container">
+              <div className="facturacion-factura-header">
+                <div className="facturacion-factura-empresa">
                   <h2>PetPlaza</h2>
                   <p>Sistema de Gestión Veterinaria</p>
                   <p>Tegucigalpa, Honduras</p>
                   <p>Tel: +504 2234-5678</p>
                 </div>
                 
-                <div className="factura-info">
+                <div className="facturacion-factura-info">
                   <h3>FACTURA</h3>
                   <p><strong>Número:</strong> {facturaSeleccionada.numero}</p>
                   <p><strong>Fecha:</strong> {facturaSeleccionada.fecha}</p>
-                  <p><strong>Estado:</strong> <span className={`estado-badge ${facturaSeleccionada.estado.toLowerCase()}`}>{facturaSeleccionada.estado}</span></p>
+                  <p><strong>Estado:</strong> <span className={`facturacion-estado-badge ${facturaSeleccionada.estado.toLowerCase()}`}>{facturaSeleccionada.estado}</span></p>
                 </div>
               </div>
               
-              <div className="factura-cliente">
-                <div className="cliente-info">
+              <div className="facturacion-factura-cliente">
+                <div className="facturacion-cliente-info">
                   <h4>Datos del Cliente</h4>
                   <p><strong>Nombre:</strong> {facturaSeleccionada.cliente}</p>
                   <p><strong>Mascota:</strong> {facturaSeleccionada.mascota}</p>
                   <p><strong>RTN:</strong> {facturaSeleccionada.rtn || 'No especificado'}</p>
                 </div>
                 
-                <div className="pago-info">
+                <div className="facturacion-pago-info">
                   <h4>Información de Pago</h4>
                   <p><strong>Método de pago:</strong> {facturaSeleccionada.metodoPago}</p>
                 </div>
               </div>
               
-              <div className="factura-detalles">
+              <div className="facturacion-factura-detalles">
                 <h4>Detalles de la Factura</h4>
                 
-                <table className="detalles-table">
+                <table className="facturacion-detalles-table">
                   <thead>
                     <tr>
                       <th>Descripción</th>
@@ -526,27 +553,57 @@ const Facturacion = ({ dueñosData, mascotasData }) => {
                   </tbody>
                 </table>
                 
-                <div className="factura-totales">
-                  <div className="total-row">
+                <div className="facturacion-factura-totales">
+                  <div className="facturacion-total-row">
                     <span>Subtotal:</span>
                     <span>L. {facturaSeleccionada.subtotal.toFixed(2)}</span>
                   </div>
-                  <div className="total-row">
+                  <div className="facturacion-total-row">
                     <span>ISV (15%):</span>
                     <span>L. {facturaSeleccionada.impuesto.toFixed(2)}</span>
                   </div>
-                  <div className="total-row total-final">
+                  <div className="facturacion-total-row facturacion-total-final">
                     <span>Total:</span>
                     <span>L. {facturaSeleccionada.total.toFixed(2)}</span>
                   </div>
                 </div>
               </div>
               
-              <div className="factura-footer">
+              <div className="facturacion-factura-footer">
                 <p>¡Gracias por confiar en PetPlaza!</p>
               </div>
             </div>
           </div>
+        </div>
+      )}
+
+      {/* MODAL DE CONFIRMACIÓN DE ELIMINACIÓN */}
+      {showConfirmModal && (
+        <div className="facturacion-modal-overlay show">
+          <div className="facturacion-modal facturacion-confirm-modal">
+            <div className="facturacion-modal-header">
+              <h2><AlertCircle size={24} /> Confirmar Eliminación</h2>
+              <button className="facturacion-close-btn" onClick={cancelarEliminacion}><X size={20} /></button>
+            </div>
+            <div className="facturacion-confirm-content">
+              <p>¿Estás seguro de eliminar la factura <strong>{facturaAEliminar?.numero}</strong> de <strong>{facturaAEliminar?.cliente}</strong>?</p>
+              <div className="facturacion-confirm-actions">
+                <button className="facturacion-btn-secondary" onClick={cancelarEliminacion}>
+                  <XCircle size={16} /> Cancelar
+                </button>
+                <button className="facturacion-btn-danger" onClick={handleDelete}>
+                  <Check size={16} /> Sí, eliminar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* NOTIFICACIÓN */}
+      {showNotification && (
+        <div className="facturacion-notification-success show">
+          <Check size={18} /> {notificationMessage}
         </div>
       )}
     </div>
@@ -554,3 +611,4 @@ const Facturacion = ({ dueñosData, mascotasData }) => {
 };
 
 export default Facturacion;
+
