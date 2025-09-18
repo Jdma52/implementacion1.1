@@ -1,6 +1,5 @@
 import React, { useMemo, useState } from "react";
-import {FaEdit, FaTrash, FaPaw, FaUser, FaCalendarAlt, FaWeight, FaPalette,} 
-from "react-icons/fa";
+import { FaEdit, FaTrash, FaPaw, FaUser, FaCalendarAlt, FaWeight, FaPalette, FaSearch, } from "react-icons/fa";
 import "../CSS/Mascotas.css";
 
 const Mascotas = () => {
@@ -158,8 +157,12 @@ const Mascotas = () => {
     <div className="mascotas-container">
       {/* Header */}
       <div className="mascotas-header">
-        <div className="mascotas-title-wrapper" style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          <FaPaw size={24} color="#00a884" aria-hidden="true" /> {/* Ícono al lado del título */}
+        <div
+          className="mascotas-title-wrapper"
+          style={{ display: "flex", alignItems: "center", gap: "8px" }}
+        >
+          <FaPaw size={24} color="#00a884" aria-hidden="true" />{" "}
+          {/* Ícono al lado del título */}
           <div>
             <h2 className="mascotas-title">Mascotas</h2>
             <p className="mascotas-subtitle">Gestión de mascotas registradas</p>
@@ -179,6 +182,7 @@ const Mascotas = () => {
           onChange={(e) => setSearch(e.target.value)}
           aria-label="Buscar mascotas"
         />
+        <FaSearch className="search-icon" aria-hidden="true" />
       </div>
 
       {/* Grid de tarjetas */}
@@ -187,8 +191,14 @@ const Mascotas = () => {
           <div className="mascota-card" key={mascota.id}>
             {/* Acciones */}
             <div className="card-actions">
-              <FaEdit className="icon edit" onClick={() => abrirModalEditar(mascota)} />
-              <FaTrash className="icon delete" onClick={() => abrirModalEliminar(mascota)} />
+              <FaEdit
+                className="icon edit"
+                onClick={() => abrirModalEditar(mascota)}
+              />
+              <FaTrash
+                className="icon delete"
+                onClick={() => abrirModalEliminar(mascota)}
+              />
             </div>
 
             {/* Encabezado de tarjeta: huella + nombre + subtítulo */}
@@ -233,10 +243,15 @@ const Mascotas = () => {
         <div
           className={`modal-overlay ${closingMain ? "closing" : "active"}`}
           onMouseDown={(e) => {
-            if (e.target.classList.contains("modal-overlay")) cerrarModalPrincipal();
+            if (e.target.classList.contains("modal-overlay"))
+              cerrarModalPrincipal();
           }}
         >
-          <div className={`modal ${closingMain ? "closing" : "active"}`} role="dialog" aria-modal="true">
+          <div
+            className={`modal ${closingMain ? "closing" : "active"}`}
+            role="dialog"
+            aria-modal="true"
+          >
             <h3>{modoEdicion ? "Editar Mascota" : "Nueva Mascota"}</h3>
 
             {/* Form con labels */}
@@ -349,10 +364,15 @@ const Mascotas = () => {
         <div
           className={`modal-overlay ${closingDelete ? "closing" : "active"}`}
           onMouseDown={(e) => {
-            if (e.target.classList.contains("modal-overlay")) closeDeleteModal();
+            if (e.target.classList.contains("modal-overlay"))
+              closeDeleteModal();
           }}
         >
-          <div className={`modal ${closingDelete ? "closing" : "active"}`} role="dialog" aria-modal="true">
+          <div
+            className={`modal ${closingDelete ? "closing" : "active"}`}
+            role="dialog"
+            aria-modal="true"
+          >
             <h3>¿Eliminar mascota?</h3>
             <p>
               ¿Deseas eliminar a <strong>{mascotaAEliminar?.nombre}</strong>?
@@ -373,3 +393,4 @@ const Mascotas = () => {
 };
 
 export default Mascotas;
+
