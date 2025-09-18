@@ -6,7 +6,7 @@ import {
 } from "lucide-react";
 import "../CSS/Facturacion.css";
 
-// Importación corregida de jspdf y autotable
+// Importación de jspdf y autotable
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
@@ -611,4 +611,5 @@ const Facturacion = ({ dueñosData, mascotasData }) => {
 };
 
 export default Facturacion;
+
 
