@@ -1,252 +1,342 @@
+/* ===== CONTENEDOR GENERAL DE USERS ===== */
 .users-container {
-  background: #f8fafc;
-  padding: 1rem;
-  font-family: 'Inter', sans-serif;
+  background: #f8fafc; /* Fondo gris muy claro para todo el contenedor */
+  padding: 1rem;       /* Espaciado interno general */
+  font-family: 'Inter', sans-serif; /* Fuente principal para todo el contenido */
 }
 
-.users-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.5rem;
+/* ===== ENCABEZADO ===== */
+.users-container .users-header {
+  display: flex; /* Activa Flexbox para organizar elementos en fila */
+  justify-content: space-between; /* Espacia los elementos al inicio y al final */
+  align-items: center; /* Centra los elementos verticalmente */
+  margin-bottom: 1.5rem; /* Espacio debajo del encabezado */
 }
 
-.users-title {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: #1f2937;
+.users-container .users-title {
+  font-size: 1.4rem; /* Tamaño de letra grande para el título */
+  font-weight: 700;  /* Texto en negrita */
+  color: #1f2937;    /* Color gris oscuro */
 }
 
-.users-subtitle {
-  color: #6b7280;
+.users-container .users-subtitle {
+  font-size: 0.9rem; /* Tamaño de letra más pequeño */
+  color: #6b7280;    /* Gris medio */
 }
 
-.btn-primary {
-  background: #059669;
-  color: white;
-  border: none;
-  padding: 0.6rem 1rem;
-  border-radius: 0.5rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+/* ===== BOTÓN PRINCIPAL (verde crear usuario) ===== */
+.users-container .btn-primary {
+  background: #059669;   /* Fondo verde */
+  color: white;          /* Texto en blanco */
+  border: none;          /* Sin borde */
+  padding: 0.5rem 0.9rem; /* Espaciado interno */
+  border-radius: 0.5rem; /* Bordes redondeados */
+  display: flex;         /* Flexbox para icono + texto */
+  align-items: center;   /* Centrado vertical */
+  gap: 0.5rem;           /* Espacio entre icono y texto */
+  font-weight: 600;      /* Texto seminegrita */
+  font-size: 0.9rem;     /* Tamaño de letra */
+  cursor: pointer;       /* Cursor en forma de mano */
+  transition: all 0.2s ease; /* Transiciones suaves */
+}
+
+.users-container .btn-primary:hover {
+  background: #047857;     /* Verde más oscuro al pasar el ratón */
+  transform: scale(1.05);  /* Pequeño zoom */
+  box-shadow: 0 0 8px #10b981aa; /* Resplandor verde */
+}
+
+/* ===== TARJETAS DE ESTADÍSTICAS ===== */
+.users-container .stats-grid {
+  display: grid; /* Uso de grid */
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); /* Columnas automáticas */
+  gap: 0.8rem; /* Espacio entre tarjetas */
+  margin-bottom: 1rem; /* Espacio debajo */
+}
+
+.users-container .stats-card {
+  background: white; /* Fondo blanco */
+  padding: 0.8rem;   /* Espaciado interno */
+  border-radius: 0.6rem; /* Bordes redondeados */
+  display: flex;     /* Flexbox */
+  align-items: center; /* Alineación vertical */
+  gap: 1rem;         /* Espacio entre icono y texto */
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* Sombra ligera */
+}
+
+.users-container .stats-icon { font-size: 1.3rem; } /* Tamaño de icono */
+.users-container .stats-number { font-size: 1.2rem; font-weight: 700; color: #111827; } /* Número destacado */
+.users-container .stats-label { font-size: 0.85rem; color: #6b7280; } /* Texto descriptivo */
+
+/* ===== BUSCADOR ===== */
+.users-container .search-box {
+  display: flex; /* Flexbox */
+  align-items: center; /* Centrado vertical */
+  background: white; /* Fondo blanco */
+  padding: 0.4rem 0.8rem; /* Espaciado interno */
+  border-radius: 0.5rem; /* Bordes redondeados */
+  margin-bottom: 1rem; /* Espacio inferior */
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* Sombra ligera */
+  transition: box-shadow 0.2s ease, border 0.2s ease; /* Animación en foco */
+}
+
+/* 🔹 Efecto luminoso al hacer focus en el input */
+.users-container .search-box:focus-within {
+  box-shadow: 0 0 8px rgba(59, 130, 246, 0.6); /* Resplandor azul */
+  border: 1px solid #3b82f6; /* Borde azul */
+}
+
+.users-container .search-box input {
+  flex: 1; /* Ocupa todo el espacio disponible */
+  border: none; /* Sin borde */
+  outline: none; /* Quita borde de navegador */
+  font-size: 0.9rem; /* Tamaño de letra */
+  margin-left: 0.5rem; /* Espacio entre icono e input */
+}
+
+.users-container .search-icon { 
+  color: #6b7280; /* Gris medio */
+  font-size: 1rem; /* Tamaño del icono */
+}
+
+/* ===== TABLA ===== */
+.users-container .table-wrapper { overflow-x: auto; } /* Scroll horizontal si se desborda */
+
+.users-container .users-table {
+  width: 100%; /* Ocupa todo el ancho */
+  border-collapse: collapse; /* Elimina espacios entre celdas */
+  background: white; /* Fondo blanco */
+  border-radius: 0.5rem; /* Bordes redondeados */
+  overflow: hidden; /* Oculta contenido fuera */
+  font-size: 0.9rem; /* Tamaño de letra */
+}
+
+.users-container .users-table th,
+.users-container .users-table td {
+  padding: 0.6rem; /* Espaciado interno */
+  text-align: left; /* Texto alineado a la izquierda */
+  border-bottom: 1px solid #e5e7eb; /* Línea divisoria */
+}
+
+.users-container .users-table th {
+  background: #f3f4f6; /* Fondo gris claro */
+  color: #374151; /* Texto gris oscuro */
+}
+
+/* ===== BADGES Y BOTONES DE ESTADO ===== */
+.users-container .role-badge {
+  padding: 0.25rem 0.7rem; /* Espaciado interno */
+  border-radius: 9999px;   /* Forma circular (píldora) */
+  font-size: 0.8rem;       /* Tamaño de texto */
+  font-weight: 600;        /* Texto seminegrita */
+  display: inline-block;   /* Elemento en línea */
+}
+
+.users-container .status-btn {
+  padding: 0.25rem 0.7rem; /* Espaciado */
+  border-radius: 9999px;   /* Circular */
+  font-size: 0.8rem;       /* Texto */
+  font-weight: 600;        /* Negrita */
+  border: none;            /* Sin borde */
+  cursor: pointer;         /* Mano al pasar */
+}
+
+.users-container .status-btn.active { background: #d1fae5; color: #065f46; } /* Activo: verde */
+.users-container .status-btn.inactive { background: #fee2e2; color: #991b1b; } /* Inactivo: rojo */
+
+/* ===== BOTONES DE ACCIÓN (editar / eliminar) ===== */
+.users-container .action-btn {
+  border: none; /* Sin borde */
+  background: transparent; /* Fondo transparente */
+  cursor: pointer; /* Mano al pasar */
+  padding: 0.25rem; /* Espaciado interno */
+  border-radius: 0.3rem; /* Bordes redondeados */
+  font-size: 1.1rem; /* Tamaño de icono */
+  transition: transform 0.2s ease, color 0.2s ease; /* Animación */
+}
+
+.users-container .action-btn.edit { color: #3b82f6; } /* Azul para editar */
+.users-container .action-btn.edit:hover { transform: scale(1.15); } /* Zoom al pasar */
+
+.users-container .action-btn.delete { color: #ef4444; } /* Rojo para eliminar */
+.users-container .action-btn.delete:hover { transform: scale(1.15); } /* Zoom al pasar */
+
+/* ===== MODAL PRINCIPAL ===== */
+.users-container .modal-overlay {
+  position: fixed; /* Fijo en pantalla */
+  top:0; left:0; width:100%; height:100%; /* Cubre toda la ventana */
+  background: rgba(0,0,0,0.5); /* Fondo negro transparente */
+  display:flex; /* Centrado con flexbox */
+  justify-content:center;
+  align-items:center;
+  opacity:0; /* Invisible por defecto */
+  transition:opacity 0.3s ease; /* Animación */
+  z-index:900; /* Encima de otros elementos */
+}
+.users-container .modal-overlay.open { opacity:1; } /* Visible */
+.users-container .modal-overlay.closing { opacity:0; } /* Oculto */
+
+.users-container .modal {
+  background:white; /* Fondo blanco */
+  padding:1.2rem; /* Espaciado interno */
+  border-radius:0.5rem; /* Bordes redondeados */
+  width:90%; max-width:450px; /* Ancho adaptable */
+  transform: scale(0.9); /* Escalado inicial */
+  opacity:0; /* Oculto */
+  transition: all 0.3s ease; /* Animación */
+}
+.users-container .modal.open { transform: scale(1); opacity:1; } /* Animación apertura */
+.users-container .modal.closing { transform: scale(0.9); opacity:0; } /* Animación cierre */
+
+.users-container .modal h2 { margin-bottom:0.8rem; font-size:1.1rem; } /* Título modal */
+.users-container .modal form { display:flex; flex-direction:column; gap:0.6rem; } /* Formulario en columna */
+
+.users-container .modal label {
+  display: block;
+  font-size: 0.85rem;
   font-weight: 600;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-
-.btn-primary:hover {
-  background: #047857;
-}
-
-/* Tarjetas de estadísticas */
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 1rem;
-  margin-bottom: 1rem;
-}
-
-.stats-card {
-  background: white;
-  padding: 1rem;
-  border-radius: 0.5rem;
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-.stats-icon {
-  font-size: 1.5rem;
-}
-
-.stats-number {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #111827;
-}
-
-.stats-label {
-  color: #6b7280;
-}
-
-/* Buscador */
-.search-box {
-  display: flex;
-  align-items: center;
-  background: white;
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
-  margin-bottom: 1rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-.search-box input {
-  flex: 1;
-  border: none;
-  outline: none;
-  font-size: 1rem;
-  margin-left: 0.5rem;
-}
-
-.search-icon {
-  color: #6b7280;
-}
-
-/* Tabla */
-.table-wrapper {
-  overflow-x: auto;
-}
-
-.users-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: white;
-  border-radius: 0.5rem;
-  overflow: hidden;
-}
-
-.users-table th,
-.users-table td {
-  padding: 0.75rem;
-  text-align: left;
-  border-bottom: 1px solid #e5e7eb;
-}
-
-.users-table th {
-  background: #f3f4f6;
+  margin-bottom: 0.3rem;
   color: #374151;
 }
 
-.role-badge {
-  padding: 0.3rem 0.8rem;
-  border-radius: 9999px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  display: inline-block;
+.users-container .modal input,
+.users-container .modal select {
+  width: 100%; /* Ocupa todo el ancho */
+  padding: 0.6rem 0.8rem; /* Espaciado */
+  border: 1px solid #d1d5db; /* Borde gris */
+  border-radius: 0.4rem; /* Bordes redondeados */
+  font-size: 0.9rem; /* Tamaño de letra */
+  box-sizing: border-box; /* Incluye borde en el tamaño total */
 }
 
-.status-btn {
-  padding: 0.3rem 0.8rem;
-  border-radius: 9999px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  border: none;
-  cursor: pointer;
-}
-
-.status-btn.active {
-  background: #d1fae5;
-  color: #065f46;
-}
-
-.status-btn.inactive {
-  background: #fee2e2;
-  color: #991b1b;
-}
-
-.action-btn {
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  padding: 0.3rem;
-  border-radius: 0.3rem;
-}
-
-.action-btn.edit:hover {
-  background: #dbeafe;
-}
-
-.action-btn.delete:hover {
-  background: #fee2e2;
-}
-
-/* Modal */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.modal {
-  background: white;
-  padding: 1.5rem;
-  border-radius: 0.5rem;
-  width: 90%;
-  max-width: 500px;
-}
-
-.modal h2 {
-  margin-bottom: 1rem;
-  font-size: 1.2rem;
-}
-
-.modal form {
+.users-container .password-field {
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
+  position: relative; /* Para posicionar el botón de mostrar/ocultar */
 }
 
-.modal input,
-.modal select {
-  padding: 0.6rem;
-  border: 1px solid #d1d5db;
-  border-radius: 0.4rem;
-  font-size: 1rem;
-}
+.users-container .password-field input { padding-right: 2.5rem; } /* Espacio para el botón */
 
-.password-field {
-  display: flex;
-  align-items: center;
-}
-
-.password-field button {
+.users-container .password-field button {
+  position: absolute;
+  bottom: 0.5rem;
+  right: 0.5rem;
   background: transparent;
   border: none;
   cursor: pointer;
-  margin-left: -2rem;
-}
-
-.password-hint {
-  font-size: 0.8rem;
-  color: #6b7280;
-}
-
-.modal-actions {
   display: flex;
-  justify-content: flex-end;
-  gap: 1rem;
-  margin-top: 1rem;
+  align-items: center;
+  justify-content: center;
 }
 
-.btn-secondary {
+.users-container .modal-actions {
+  display:flex;
+  justify-content:flex-end;
+  gap:0.8rem;
+  margin-top:0.8rem;
+}
+
+.users-container .btn-secondary {
   background: #e5e7eb;
-  padding: 0.6rem 1rem;
-  border-radius: 0.5rem;
+  color: #111827;
   border: none;
+  padding: 0.5rem 0.9rem;
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
   cursor: pointer;
+  transition: all 0.2s ease;
+}
+.users-container .btn-secondary:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 8px #6b7280aa;
 }
 
-.btn-secondary:hover {
-  background: #d1d5db;
+/* ===== MODAL DE CONFIRMACIÓN ===== */
+.users-container .confirm-modal-overlay {
+  position: fixed;
+  top:0; left:0; width:100%; height:100%;
+  background: rgba(0,0,0,0.5);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  opacity:0;
+  transition:opacity 0.3s ease;
+  z-index:1000;
+}
+.users-container .confirm-modal-overlay.open { opacity:1; }
+.users-container .confirm-modal-overlay.closing { opacity:0; }
+
+.users-container .confirm-modal {
+  background:white;
+  padding:1.2rem;
+  border-radius:0.5rem;
+  width:90%; max-width:400px;
+  transform: scale(0.9);
+  opacity:0;
+  transition: all 0.3s ease;
+}
+.users-container .confirm-modal.open { transform: scale(1); opacity:1; }
+.users-container .confirm-modal.closing { transform: scale(0.9); opacity:0; }
+
+.users-container .confirm-modal h3 {
+  margin-bottom:1rem;
+  font-size:1rem;
+  font-weight:600;
+  color:#111827;
+  text-align:center;
 }
 
+.users-container .confirm-actions {
+  display:flex;
+  justify-content:center;
+  gap:0.8rem;
+}
+
+.users-container .confirm-btn,
+.users-container .cancel-btn {
+  padding: 0.5rem 1rem;
+  border-radius:0.5rem;
+  border:1px solid transparent;
+  cursor:pointer;
+  font-weight:600;
+  transition: all 0.2s ease;
+}
+
+.users-container .confirm-btn {
+  background: #ef4444; /* Fondo rojo */
+  color: white;        /* Texto blanco */
+  border: none;        /* Sin borde */
+}
+.users-container .confirm-btn:hover {
+  background: #dc2626; /* Rojo más oscuro */
+  transform: scale(1.05); /* Zoom */
+  box-shadow: 0 0 8px #ef4444aa; /* Resplandor rojo */
+}
+
+.users-container .cancel-btn {
+  background: #e5e7eb; /* Gris claro */
+  color: #111827;      /* Texto gris oscuro */
+}
+.users-container .cancel-btn:hover {
+  background: #d1d5db; /* Gris más oscuro */
+  transform: scale(1.05);
+  box-shadow: 0 0 8px #6b7280aa; /* Resplandor gris */
+}
+
+/* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
-  .users-header {
-    flex-direction: column;
-    gap: 1rem;
-    align-items: flex-start;
+  .users-container .users-header {
+    flex-direction: column; /* Coloca el encabezado en columna */
+    gap: 1rem; /* Espacio entre elementos */
+    align-items: flex-start; /* Alinea a la izquierda */
   }
 
-  .users-table th,
-  .users-table td {
-    font-size: 0.9rem;
+  .users-container .users-table th,
+  .users-container .users-table td {
+    font-size: 0.8rem; /* Texto más pequeño */
+  }
+
+  .users-container .stats-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Columnas más angostas */
   }
 }
