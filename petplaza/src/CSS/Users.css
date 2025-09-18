@@ -1,97 +1,124 @@
-/* ===== CONTENEDOR GENERAL DE USERS ===== */
+/* ==========================================================
+   CONTENEDOR GENERAL DE USERS
+   ========================================================== */
 .users-container {
-  background: #f8fafc; /* Fondo gris muy claro para todo el contenedor */
-  padding: 1rem;       /* Espaciado interno general */
-  font-family: 'Inter', sans-serif; /* Fuente principal para todo el contenido */
+  background: #f8fafc; /* Fondo gris muy claro en toda la vista */
+  padding: 1rem; /* Espaciado interno general */
+  font-family: 'Inter', sans-serif; /* Fuente principal */
 }
 
-/* ===== ENCABEZADO ===== */
+/* ==========================================================
+   ENCABEZADO (Título y botón principal)
+   ========================================================== */
 .users-container .users-header {
-  display: flex; /* Activa Flexbox para organizar elementos en fila */
-  justify-content: space-between; /* Espacia los elementos al inicio y al final */
-  align-items: center; /* Centra los elementos verticalmente */
-  margin-bottom: 1.5rem; /* Espacio debajo del encabezado */
+  display: flex; /* Organiza elementos en fila */
+  justify-content: space-between; /* Separa título y botón */
+  align-items: center; /* Centra verticalmente */
+  margin-bottom: 1.5rem; /* Espacio inferior */
 }
 
 .users-container .users-title {
-  font-size: 1.4rem; /* Tamaño de letra grande para el título */
-  font-weight: 700;  /* Texto en negrita */
-  color: #1f2937;    /* Color gris oscuro */
+  font-size: 1.4rem; /* Tamaño de letra grande */
+  font-weight: 700; /* Negrita */
+  color: #1f2937; /* Gris oscuro */
 }
 
 .users-container .users-subtitle {
-  font-size: 0.9rem; /* Tamaño de letra más pequeño */
-  color: #6b7280;    /* Gris medio */
+  font-size: 0.9rem; /* Tamaño más pequeño */
+  color: #6b7280; /* Gris medio */
 }
 
-/* ===== BOTÓN PRINCIPAL (verde crear usuario) ===== */
+/* ==========================================================
+   BOTÓN PRINCIPAL (verde "Nuevo usuario")
+   ========================================================== */
 .users-container .btn-primary {
-  background: #059669;   /* Fondo verde */
-  color: white;          /* Texto en blanco */
-  border: none;          /* Sin borde */
+  background: #059669; /* Verde de fondo */
+  color: white; /* Texto en blanco */
+  border: none; /* Sin borde */
   padding: 0.5rem 0.9rem; /* Espaciado interno */
   border-radius: 0.5rem; /* Bordes redondeados */
-  display: flex;         /* Flexbox para icono + texto */
-  align-items: center;   /* Centrado vertical */
-  gap: 0.5rem;           /* Espacio entre icono y texto */
-  font-weight: 600;      /* Texto seminegrita */
-  font-size: 0.9rem;     /* Tamaño de letra */
-  cursor: pointer;       /* Cursor en forma de mano */
-  transition: all 0.2s ease; /* Transiciones suaves */
+  display: flex; /* Flex para ícono + texto */
+  align-items: center; /* Centrado vertical */
+  gap: 0.5rem; /* Espacio entre ícono y texto */
+  font-weight: 600; /* Seminegrita */
+  font-size: 0.9rem; /* Tamaño de letra */
+  cursor: pointer; /* Cursor de mano */
+  transition: all 0.2s ease; /* Animación suave */
 }
 
 .users-container .btn-primary:hover {
-  background: #047857;     /* Verde más oscuro al pasar el ratón */
-  transform: scale(1.05);  /* Pequeño zoom */
-  box-shadow: 0 0 8px #10b981aa; /* Resplandor verde */
+  background: #047857; /* Verde más oscuro al hover */
+  transform: scale(1.05); /* Efecto zoom */
+  box-shadow: 0 0 8px #10b981aa; /* Glow verde */
 }
 
-/* ===== TARJETAS DE ESTADÍSTICAS ===== */
+/* ==========================================================
+   TARJETAS DE ESTADÍSTICAS
+   ========================================================== */
 .users-container .stats-grid {
   display: grid; /* Uso de grid */
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); /* Columnas automáticas */
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); /* Columnas adaptables */
   gap: 0.8rem; /* Espacio entre tarjetas */
-  margin-bottom: 1rem; /* Espacio debajo */
+  margin-bottom: 1rem; /* Separación inferior */
 }
 
 .users-container .stats-card {
   background: white; /* Fondo blanco */
-  padding: 0.8rem;   /* Espaciado interno */
+  padding: 0.8rem; /* Espaciado interno */
   border-radius: 0.6rem; /* Bordes redondeados */
-  display: flex;     /* Flexbox */
-  align-items: center; /* Alineación vertical */
-  gap: 1rem;         /* Espacio entre icono y texto */
+  display: flex; /* Flex para icono y texto */
+  align-items: center; /* Centrado vertical */
+  gap: 1rem; /* Espacio entre icono y texto */
   box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* Sombra ligera */
+  transition: box-shadow 0.3s ease, transform 0.2s ease; /* Transiciones suaves */
 }
 
-.users-container .stats-icon { font-size: 1.3rem; } /* Tamaño de icono */
-.users-container .stats-number { font-size: 1.2rem; font-weight: 700; color: #111827; } /* Número destacado */
-.users-container .stats-label { font-size: 0.85rem; color: #6b7280; } /* Texto descriptivo */
+/* Efecto hover en las tarjetas de estadísticas */
+.users-container .stats-card:hover {
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15); /* Sombra más notoria */
+  transform: translateY(-2px); /* Efecto de elevar tarjeta */
+}
 
-/* ===== BUSCADOR ===== */
+.users-container .stats-icon { 
+  font-size: 1.3rem; /* Tamaño de icono */
+}
+
+.users-container .stats-number { 
+  font-size: 1.2rem; /* Número más grande */
+  font-weight: 700; /* Negrita */
+  color: #111827; /* Gris oscuro */
+}
+
+.users-container .stats-label { 
+  font-size: 0.85rem; /* Texto descriptivo */
+  color: #6b7280; /* Gris medio */
+}
+
+/* ==========================================================
+   BUSCADOR
+   ========================================================== */
 .users-container .search-box {
-  display: flex; /* Flexbox */
+  display: flex; /* Ícono + input */
   align-items: center; /* Centrado vertical */
   background: white; /* Fondo blanco */
   padding: 0.4rem 0.8rem; /* Espaciado interno */
   border-radius: 0.5rem; /* Bordes redondeados */
-  margin-bottom: 1rem; /* Espacio inferior */
+  margin-bottom: 1rem; /* Separación inferior */
   box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* Sombra ligera */
-  transition: box-shadow 0.2s ease, border 0.2s ease; /* Animación en foco */
+  transition: box-shadow 0.2s ease, border 0.2s ease; /* Transición en foco */
 }
 
-/* 🔹 Efecto luminoso al hacer focus en el input */
 .users-container .search-box:focus-within {
-  box-shadow: 0 0 8px rgba(59, 130, 246, 0.6); /* Resplandor azul */
+  box-shadow: 0 0 8px rgba(59, 130, 246, 0.6); /* Glow azul */
   border: 1px solid #3b82f6; /* Borde azul */
 }
 
 .users-container .search-box input {
-  flex: 1; /* Ocupa todo el espacio disponible */
+  flex: 1; /* Ocupa todo el espacio */
   border: none; /* Sin borde */
-  outline: none; /* Quita borde de navegador */
+  outline: none; /* Quita borde navegador */
   font-size: 0.9rem; /* Tamaño de letra */
-  margin-left: 0.5rem; /* Espacio entre icono e input */
+  margin-left: 0.5rem; /* Espacio con la lupa */
 }
 
 .users-container .search-icon { 
@@ -99,22 +126,26 @@
   font-size: 1rem; /* Tamaño del icono */
 }
 
-/* ===== TABLA ===== */
-.users-container .table-wrapper { overflow-x: auto; } /* Scroll horizontal si se desborda */
+/* ==========================================================
+   TABLA
+   ========================================================== */
+.users-container .table-wrapper { 
+  overflow-x: auto; /* Scroll si se desborda */
+}
 
 .users-container .users-table {
-  width: 100%; /* Ocupa todo el ancho */
-  border-collapse: collapse; /* Elimina espacios entre celdas */
+  width: 100%; /* Ancho completo */
+  border-collapse: collapse; /* Colapsa bordes */
   background: white; /* Fondo blanco */
   border-radius: 0.5rem; /* Bordes redondeados */
-  overflow: hidden; /* Oculta contenido fuera */
-  font-size: 0.9rem; /* Tamaño de letra */
+  overflow: hidden; /* Oculta desbordes */
+  font-size: 0.9rem; /* Tamaño texto */
 }
 
 .users-container .users-table th,
 .users-container .users-table td {
   padding: 0.6rem; /* Espaciado interno */
-  text-align: left; /* Texto alineado a la izquierda */
+  text-align: left; /* Texto alineado izquierda */
   border-bottom: 1px solid #e5e7eb; /* Línea divisoria */
 }
 
@@ -123,73 +154,120 @@
   color: #374151; /* Texto gris oscuro */
 }
 
-/* ===== BADGES Y BOTONES DE ESTADO ===== */
+/* ==========================================================
+   BADGES Y BOTONES DE ESTADO
+   ========================================================== */
 .users-container .role-badge {
-  padding: 0.25rem 0.7rem; /* Espaciado interno */
-  border-radius: 9999px;   /* Forma circular (píldora) */
-  font-size: 0.8rem;       /* Tamaño de texto */
-  font-weight: 600;        /* Texto seminegrita */
-  display: inline-block;   /* Elemento en línea */
+  padding: 0.25rem 0.7rem; /* Espaciado */
+  border-radius: 9999px; /* Redondo tipo píldora */
+  font-size: 0.8rem; /* Texto pequeño */
+  font-weight: 600; /* Seminegrita */
+  display: inline-block; /* Elemento en línea */
 }
 
 .users-container .status-btn {
-  padding: 0.25rem 0.7rem; /* Espaciado */
-  border-radius: 9999px;   /* Circular */
-  font-size: 0.8rem;       /* Texto */
-  font-weight: 600;        /* Negrita */
-  border: none;            /* Sin borde */
-  cursor: pointer;         /* Mano al pasar */
+  padding: 0.25rem 0.7rem;
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
 }
 
-.users-container .status-btn.active { background: #d1fae5; color: #065f46; } /* Activo: verde */
-.users-container .status-btn.inactive { background: #fee2e2; color: #991b1b; } /* Inactivo: rojo */
+.users-container .status-btn.active { 
+  background: #d1fae5; /* Verde claro */
+  color: #065f46; /* Verde oscuro */
+}
 
-/* ===== BOTONES DE ACCIÓN (editar / eliminar) ===== */
+.users-container .status-btn.inactive { 
+  background: #fee2e2; /* Rojo claro */
+  color: #991b1b; /* Rojo intenso */
+}
+
+/* ==========================================================
+   BOTONES DE ACCIÓN (editar / eliminar)
+   ========================================================== */
+
+/* Contenedor para separar botones */
+.users-container .action-buttons {
+  display: flex; /* Coloca en fila */
+  gap: 0.4rem; /* Espacio entre botones */
+  justify-content: center; /* Centrado */
+}
+
+/* Estilo base */
 .users-container .action-btn {
   border: none; /* Sin borde */
-  background: transparent; /* Fondo transparente */
   cursor: pointer; /* Mano al pasar */
-  padding: 0.25rem; /* Espaciado interno */
-  border-radius: 0.3rem; /* Bordes redondeados */
-  font-size: 1.1rem; /* Tamaño de icono */
-  transition: transform 0.2s ease, color 0.2s ease; /* Animación */
+  padding: 0.3rem; /* Espaciado */
+  border-radius: 4px; /* Bordes redondeados */
+  font-size: 0.85rem; /* Tamaño de letra */
+  transition: all 0.2s ease; /* Animación */
 }
 
-.users-container .action-btn.edit { color: #3b82f6; } /* Azul para editar */
-.users-container .action-btn.edit:hover { transform: scale(1.15); } /* Zoom al pasar */
+/* Botón EDITAR */
+.users-container .action-btn.edit {
+  background: #e0f2fe; /* Azul claro */
+  color: #0369a1; /* Azul oscuro */
+}
 
-.users-container .action-btn.delete { color: #ef4444; } /* Rojo para eliminar */
-.users-container .action-btn.delete:hover { transform: scale(1.15); } /* Zoom al pasar */
+.users-container .action-btn.edit:hover,
+.users-container .action-btn.edit:focus {
+  transform: scale(1.15); /* Zoom */
+  box-shadow: 0 0 8px rgba(17, 153, 226, 0.9); /* Glow azul */
+}
 
-/* ===== MODAL PRINCIPAL ===== */
+/* Botón ELIMINAR */
+.users-container .action-btn.delete {
+  background: #fee2e2; /* Rojo claro */
+  color: #f80101; /* Rojo intenso */
+}
+
+.users-container .action-btn.delete:hover,
+.users-container .action-btn.delete:focus {
+  transform: scale(1.1); /* Zoom */
+  box-shadow: 0 0 6px rgba(255, 2, 2, 0.8); /* Glow rojo */
+}
+
+/* ==========================================================
+   MODAL PRINCIPAL (Nuevo/Editar Usuario)
+   ========================================================== */
 .users-container .modal-overlay {
   position: fixed; /* Fijo en pantalla */
-  top:0; left:0; width:100%; height:100%; /* Cubre toda la ventana */
-  background: rgba(0,0,0,0.5); /* Fondo negro transparente */
+  top:0; left:0; width:100%; height:100%;
+  background: rgba(0,0,0,0.5); /* Fondo negro translúcido */
   display:flex; /* Centrado con flexbox */
   justify-content:center;
   align-items:center;
   opacity:0; /* Invisible por defecto */
   transition:opacity 0.3s ease; /* Animación */
-  z-index:900; /* Encima de otros elementos */
+  z-index:900; /* Encima de todo */
 }
-.users-container .modal-overlay.open { opacity:1; } /* Visible */
-.users-container .modal-overlay.closing { opacity:0; } /* Oculto */
+.users-container .modal-overlay.open { opacity:1; }
+.users-container .modal-overlay.closing { opacity:0; }
 
 .users-container .modal {
   background:white; /* Fondo blanco */
   padding:1.2rem; /* Espaciado interno */
   border-radius:0.5rem; /* Bordes redondeados */
-  width:90%; max-width:450px; /* Ancho adaptable */
-  transform: scale(0.9); /* Escalado inicial */
+  width:90%; max-width:450px; /* Tamaño adaptable */
+  transform: scale(0.9); /* Efecto inicial */
   opacity:0; /* Oculto */
   transition: all 0.3s ease; /* Animación */
 }
-.users-container .modal.open { transform: scale(1); opacity:1; } /* Animación apertura */
-.users-container .modal.closing { transform: scale(0.9); opacity:0; } /* Animación cierre */
+.users-container .modal.open { transform: scale(1); opacity:1; }
+.users-container .modal.closing { transform: scale(0.9); opacity:0; }
 
-.users-container .modal h2 { margin-bottom:0.8rem; font-size:1.1rem; } /* Título modal */
-.users-container .modal form { display:flex; flex-direction:column; gap:0.6rem; } /* Formulario en columna */
+.users-container .modal h2 { 
+  margin-bottom:0.8rem; 
+  font-size:1.1rem; 
+}
+
+.users-container .modal form { 
+  display:flex; 
+  flex-direction:column; 
+  gap:0.6rem; 
+}
 
 .users-container .modal label {
   display: block;
@@ -201,21 +279,21 @@
 
 .users-container .modal input,
 .users-container .modal select {
-  width: 100%; /* Ocupa todo el ancho */
-  padding: 0.6rem 0.8rem; /* Espaciado */
-  border: 1px solid #d1d5db; /* Borde gris */
-  border-radius: 0.4rem; /* Bordes redondeados */
-  font-size: 0.9rem; /* Tamaño de letra */
-  box-sizing: border-box; /* Incluye borde en el tamaño total */
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.4rem;
+  font-size: 0.9rem;
+  box-sizing: border-box;
 }
 
 .users-container .password-field {
   display: flex;
   flex-direction: column;
-  position: relative; /* Para posicionar el botón de mostrar/ocultar */
+  position: relative;
 }
 
-.users-container .password-field input { padding-right: 2.5rem; } /* Espacio para el botón */
+.users-container .password-field input { padding-right: 2.5rem; }
 
 .users-container .password-field button {
   position: absolute;
@@ -251,7 +329,9 @@
   box-shadow: 0 0 8px #6b7280aa;
 }
 
-/* ===== MODAL DE CONFIRMACIÓN ===== */
+/* ==========================================================
+   MODAL DE CONFIRMACIÓN ELIMINAR
+   ========================================================== */
 .users-container .confirm-modal-overlay {
   position: fixed;
   top:0; left:0; width:100%; height:100%;
@@ -303,31 +383,33 @@
 }
 
 .users-container .confirm-btn {
-  background: #ef4444; /* Fondo rojo */
-  color: white;        /* Texto blanco */
-  border: none;        /* Sin borde */
+  background: #ef4444;
+  color: white;
+  border: none;
 }
 .users-container .confirm-btn:hover {
-  background: #dc2626; /* Rojo más oscuro */
-  transform: scale(1.05); /* Zoom */
-  box-shadow: 0 0 8px #ef4444aa; /* Resplandor rojo */
+  background: #dc2626;
+  transform: scale(1.05);
+  box-shadow: 0 0 8px #ef4444aa;
 }
 
 .users-container .cancel-btn {
-  background: #e5e7eb; /* Gris claro */
-  color: #111827;      /* Texto gris oscuro */
+  background: #e5e7eb;
+  color: #111827;
 }
 .users-container .cancel-btn:hover {
-  background: #d1d5db; /* Gris más oscuro */
+  background: #d1d5db;
   transform: scale(1.05);
-  box-shadow: 0 0 8px #6b7280aa; /* Resplandor gris */
+  box-shadow: 0 0 8px #6b7280aa;
 }
 
-/* ===== RESPONSIVE ===== */
+/* ==========================================================
+   RESPONSIVE (pantallas pequeñas)
+   ========================================================== */
 @media (max-width: 768px) {
   .users-container .users-header {
-    flex-direction: column; /* Coloca el encabezado en columna */
-    gap: 1rem; /* Espacio entre elementos */
+    flex-direction: column; /* Pone título y botón en columna */
+    gap: 1rem; /* Espacio entre ellos */
     align-items: flex-start; /* Alinea a la izquierda */
   }
 
@@ -337,6 +419,6 @@
   }
 
   .users-container .stats-grid {
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Columnas más angostas */
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   }
 }
