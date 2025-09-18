@@ -110,7 +110,7 @@ function Citas() {
   function handleEliminarConfirmado() {
     if (citaAEliminar) {
       setCitas(citas.filter((c) => c.id !== citaAEliminar.id));
-      setMensaje(`Cita de ${citaAEliminar.dueño} eliminada con éxito`);
+      setMensaje(Cita de ${citaAEliminar.dueño} eliminada con éxito);
       setTimeout(() => setMensaje(""), 3000);
     }
     cerrarConfirmModal();
@@ -145,12 +145,24 @@ function Citas() {
     }
   };
 
-  // Función para cerrar modal con animación
+  // Función para cerrar modal con animación y limpiar estados
   const cerrarModal = () => {
     const modal = document.querySelector(".modal");
     if (modal) {
       modal.classList.add("closing");
-      setTimeout(() => setShowModal(false), 300);
+      setTimeout(() => {
+        setShowModal(false);
+        setEditId(null);
+        setNuevaCita({
+          fecha: "",
+          hora: "",
+          dueño: "",
+          mascota: "",
+          doctor: "",
+          motivo: "",
+          estado: "Programada",
+        });
+      }, 300);
     }
   };
 
@@ -175,7 +187,22 @@ function Citas() {
           </h1>
           <h4 className="Citas-subtitulo">Gestión de Citas Médicas</h4>
         </div>
-        <button className="btn-nueva-cita" onClick={() => setShowModal(true)}>
+        <button
+          className="btn-nueva-cita"
+          onClick={() => {
+            setEditId(null);
+            setNuevaCita({
+              fecha: "",
+              hora: "",
+              dueño: "",
+              mascota: "",
+              doctor: "",
+              motivo: "",
+              estado: "Programada",
+            });
+            setShowModal(true);
+          }}
+        >
           + Nueva Cita
         </button>
       </div>
