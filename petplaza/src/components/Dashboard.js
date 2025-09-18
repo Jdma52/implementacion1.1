@@ -1,20 +1,6 @@
 import React, { useState } from "react";
-import {
-  Users,
-  PawPrint,
-  Calendar,
-  Package,
-  AlertTriangle,
-  User,
-} from "lucide-react";
-import {
-  PieChart,
-  Pie,
-  Cell,
-  Tooltip,
-  ResponsiveContainer,
-} from "recharts";
-import "../CSS/Dashboard.css";
+import { Users, PawPrint, Calendar, AlertTriangle, User, Package } from "lucide-react";
+import "../css/Dashboard.css";
 
 const Dashboard = () => {
   const [stats] = useState({
@@ -36,25 +22,17 @@ const Dashboard = () => {
     { id: 3, name: "Desparasitante", quantity: 2 },
   ]);
 
-  const petsData = [
-    { name: "Perros", value: 25 },
-    { name: "Gatos", value: 12 },
-    { name: "Aves", value: 5 },
-  ];
-
-  const COLORS = ["#10b981", "#6366f1", "#f59e0b"];
-
   return (
-    <div className="dashboard fade-in">
+    <div className="dashboard-module">
       {/* Encabezado */}
-      <div className="dashboard-header">
+      <div className="dashboard-header fade-in">
         <h1>Bienvenido, Administrador PetPlaza</h1>
         <p>Resumen del sistema de gestión veterinaria</p>
       </div>
 
-      {/* Tarjetas */}
+      {/* Tarjetas de estadísticas */}
       <div className="stats-grid">
-        <div className="stats-card card-hover">
+        <div className="stats-card card-hover fade-in">
           <div>
             <p className="stats-number">{stats.owners}</p>
             <p className="stats-label">Dueños Registrados</p>
@@ -64,7 +42,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className="stats-card card-hover">
+        <div className="stats-card card-hover fade-in">
           <div>
             <p className="stats-number">{stats.pets}</p>
             <p className="stats-label">Mascotas Registradas</p>
@@ -74,7 +52,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className="stats-card card-hover">
+        <div className="stats-card card-hover fade-in">
           <div>
             <p className="stats-number">{stats.appointments}</p>
             <p className="stats-label">Citas Programadas</p>
@@ -84,7 +62,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className="stats-card card-hover">
+        <div className="stats-card card-hover fade-in">
           <div>
             <p className="stats-number">{stats.lowStock}</p>
             <p className="stats-label">Stock Bajo</p>
@@ -95,19 +73,17 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Listas */}
-      <div className="lists-grid">
+      {/* Listas una al lado de la otra */}
+      <div className="lists-grid fade-in">
         <div className="card card-hover">
           <h2>Citas Recientes</h2>
           <ul>
             {recentAppointments.map((appointment) => (
               <li key={appointment.id} className="list-item list-hover">
-                <User className="list-icon" />
+                <User className="list-icon bg-blue" />
                 <div>
                   <p className="font-medium">{appointment.ownerName}</p>
-                  <p className="text-sm">
-                    {appointment.date} a las {appointment.time}
-                  </p>
+                  <p className="text-sm">{appointment.date} a las {appointment.time}</p>
                 </div>
               </li>
             ))}
@@ -119,7 +95,7 @@ const Dashboard = () => {
           <ul>
             {lowStockItems.map((item) => (
               <li key={item.id} className="list-item list-hover">
-                <Package className="list-icon" />
+                <Package className="list-icon bg-red" />
                 <div>
                   <p className="font-medium">{item.name}</p>
                   <p className="text-sm text-red">{`Stock: ${item.quantity}`}</p>
@@ -128,28 +104,6 @@ const Dashboard = () => {
             ))}
           </ul>
         </div>
-      </div>
-
-      {/* Gráfico Pie Chart ocupando toda la fila inferior */}
-      <div className="card piechart-card">
-        <h2>Distribución de Mascotas</h2>
-        <ResponsiveContainer width="100%" height={250}>
-          <PieChart>
-            <Pie
-              data={petsData}
-              cx="50%"
-              cy="50%"
-              outerRadius={100}
-              dataKey="value"
-              label
-            >
-              {petsData.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={COLORS[index]} />
-              ))}
-            </Pie>
-            <Tooltip />
-          </PieChart>
-        </ResponsiveContainer>
       </div>
     </div>
   );
