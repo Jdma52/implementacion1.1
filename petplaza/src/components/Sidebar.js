@@ -14,33 +14,31 @@ import InvoiceDollarIcon from "../assets/icons/InvoiceDollarIcon.png";
 import ChartBarIcon from "../assets/icons/ChartBarIcon.png";
 import UserTieIcon from "../assets/icons/UserTieIcon.png";
 
-const Sidebar = () => {
+const Sidebar = ({ user }) => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
 
-  const user = {
-    full_name: "Administrador PetPlaza",
-    role: "admin",
-    username: "admin",
-  };
-
-  // Aquí definimos los items con animación incluida
+  // Definimos los items del menú
   const menuItems = [
     { icon: DashboardIcon, label: "Dashboard", path: "/dashboard", anim: "bounce" },
     { icon: PeopleIcon, label: "Dueños", path: "/owners", anim: "pulse" },
     { icon: PetsIcon, label: "Mascotas", path: "/pets", anim: "spin" },
     { icon: EventIcon, label: "Citas", path: "/appointments", anim: "bounce" },
     { icon: MedicalIcon, label: "Expedientes", path: "/medical-records", anim: "pulse" },
-    { icon: InventoryIcon, label: "Inventario", path: "/inventory", anim: "spin" },
-    { icon: InvoiceDollarIcon, label: "Facturación", path: "/Facturacion", anim: "bounce" }, 
+    { icon: InventoryIcon, label: "Inventario", path: "/Inventory", anim: "spin" },
+    { icon: InvoiceDollarIcon, label: "Facturación", path: "/Facturacion", anim: "bounce" },
     { icon: ChartBarIcon, label: "Reportes", path: "/reports", anim: "pulse" },
     { icon: UserTieIcon, label: "Usuarios", path: "/users", anim: "spin" },
   ];
 
   return (
-    <>
+    <div className="sidebar-wrapper">
       {/* Botón hamburguesa */}
-      <button className="hamburger-btn" onClick={() => setIsOpen(!isOpen)}>
+      <button
+        className="hamburger-btn"
+        onClick={() => setIsOpen(!isOpen)}
+        aria-label="Abrir menú"
+      >
         {isOpen ? "❌" : "☰"}
       </button>
 
@@ -86,15 +84,16 @@ const Sidebar = () => {
 
         {/* Usuario */}
         <div className="sidebar-user">
-          <div className="sidebar-user-avatar">{user.username[0]}</div>
+          <div className="sidebar-user-avatar">{user?.usuario[0]}</div>
           <div>
-            <p className="sidebar-user-name">{user.full_name}</p>
-            <p className="sidebar-user-role">{user.role}</p>
+            <p className="sidebar-user-name">{user?.full_name}</p>
+            <p className="sidebar-user-role">{user?.role}</p>
           </div>
         </div>
       </aside>
-    </>
+    </div>
   );
 };
 
 export default Sidebar;
+
