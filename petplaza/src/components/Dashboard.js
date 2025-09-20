@@ -38,7 +38,7 @@ const Dashboard = () => {
             <p className="stats-label">Dueños Registrados</p>
           </div>
           <div className="icon bg-blue">
-            <Users className="icon-inner" />
+            <Users className="icon-inner" style={{ width: 18, height: 18 }} />
           </div>
         </div>
 
@@ -48,7 +48,7 @@ const Dashboard = () => {
             <p className="stats-label">Mascotas Registradas</p>
           </div>
           <div className="icon bg-green">
-            <PawPrint className="icon-inner" />
+            <PawPrint className="icon-inner" style={{ width: 18, height: 18 }} />
           </div>
         </div>
 
@@ -58,7 +58,7 @@ const Dashboard = () => {
             <p className="stats-label">Citas Programadas</p>
           </div>
           <div className="icon bg-purple">
-            <Calendar className="icon-inner" />
+            <Calendar className="icon-inner" style={{ width: 18, height: 18 }} />
           </div>
         </div>
 
@@ -68,7 +68,7 @@ const Dashboard = () => {
             <p className="stats-label">Stock Bajo</p>
           </div>
           <div className="icon bg-red">
-            <AlertTriangle className="icon-inner" />
+            <AlertTriangle className="icon-inner" style={{ width: 18, height: 18 }} />
           </div>
         </div>
       </div>
@@ -80,7 +80,7 @@ const Dashboard = () => {
           <ul>
             {recentAppointments.map((appointment) => (
               <li key={appointment.id} className="list-item list-hover">
-                <User className="list-icon bg-blue" />
+                <User className="list-icon bg-blue" style={{ width: 16, height: 16 }} />
                 <div>
                   <p className="font-medium">{appointment.ownerName}</p>
                   <p className="text-sm">{appointment.date} a las {appointment.time}</p>
@@ -95,7 +95,7 @@ const Dashboard = () => {
           <ul>
             {lowStockItems.map((item) => (
               <li key={item.id} className="list-item list-hover">
-                <Package className="list-icon bg-red" />
+                <Package className="list-icon bg-red" style={{ width: 16, height: 16 }} />
                 <div>
                   <p className="font-medium">{item.name}</p>
                   <p className="text-sm text-red">{`Stock: ${item.quantity}`}</p>
