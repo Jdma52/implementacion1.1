@@ -4,7 +4,6 @@ import "../CSS/Citas.css";
 
 function Citas() {
   const ejemplos = [
-
     {
       id: 1,
       fecha: "2025-08-24",
@@ -43,7 +42,6 @@ function Citas() {
     motivo: "",
     estado: "Programada",
   });
-  //ssss//
   const [mensaje, setMensaje] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -149,34 +147,22 @@ function Citas() {
 
   // Función para cerrar modal con animación y limpiar estados
   const cerrarModal = () => {
-    const modal = document.querySelector(".modal");
-    if (modal) {
-      modal.classList.add("closing");
-      setTimeout(() => {
-        setShowModal(false);
-        setEditId(null);
-        setNuevaCita({
-          fecha: "",
-          hora: "",
-          dueño: "",
-          mascota: "",
-          doctor: "",
-          motivo: "",
-          estado: "Programada",
-        });
-      }, 300);
-    }
+    setShowModal(false);
+    setEditId(null);
+    setNuevaCita({
+      fecha: "",
+      hora: "",
+      dueño: "",
+      mascota: "",
+      doctor: "",
+      motivo: "",
+      estado: "Programada",
+    });
   };
 
   const cerrarConfirmModal = () => {
-    const modal = document.querySelector(".modal");
-    if (modal) {
-      modal.classList.add("closing");
-      setTimeout(() => {
-        setShowConfirmModal(false);
-        setCitaAEliminar(null);
-      }, 300);
-    }
+    setShowConfirmModal(false);
+    setCitaAEliminar(null);
   };
 
   return (
