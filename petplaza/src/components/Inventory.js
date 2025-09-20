@@ -1,5 +1,13 @@
 // src/components/Inventory.js
 import React, { useState } from "react";
+import {
+  Edit,
+  Trash2,
+  ClipboardList,
+  AlertTriangle,
+  CalendarDays,
+  Stethoscope,
+} from "lucide-react";
 import "../CSS/Inventory.css";
 
 const sanitizeIntegerString = (str) => {
@@ -19,7 +27,13 @@ const Inventory = () => {
   const [items, setItems] = useState([]);
   const [search, setSearch] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [closingModal, setClosingModal] = useState(false); // 🔹 nuevo estado
   const [editingId, setEditingId] = useState(null);
+
+  // Estados para modal eliminar
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [closingDeleteModal, setClosingDeleteModal] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState(null);
 
   const [form, setForm] = useState({
     name: "",
@@ -33,12 +47,15 @@ const Inventory = () => {
   });
 
   const totalProducts = items.length;
-  const stockLow = items.filter((i) => Number(i.quantity) <= Number(i.minStock)).length;
+  const stockLow = items.filter(
+    (i) => Number(i.quantity) <= Number(i.minStock)
+  ).length;
   const expired = items.filter(
     (i) => i.expiryDate && new Date(i.expiryDate) < new Date()
   ).length;
   const totalValue = items.reduce(
-    (sum, i) => sum + (parseFloat(i.price) || 0) * (Number(i.quantity) || 0),
+    (sum, i) =>
+      sum + (parseFloat(i.price) || 0) * (Number(i.quantity) || 0),
     0
   );
 
@@ -51,6 +68,7 @@ const Inventory = () => {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
+  // --- Abrir modal crear ---
   const openNew = () => {
     setEditingId(null);
     setForm({
@@ -64,47 +82,49 @@ const Inventory = () => {
       expiryDate: "",
     });
     setShowModal(true);
+    setClosingModal(false);
   };
 
+  // --- Editar producto ---
   const handleEdit = (item) => {
     setEditingId(item.id);
     setForm({
       name: item.name ?? "",
       category: item.category ?? "",
-      quantity:
-        item.quantity !== undefined && item.quantity !== null
-          ? String(item.quantity)
-          : "",
+      quantity: item.quantity != null ? String(item.quantity) : "",
       price: item.price != null ? String(item.price) : "",
-      minStock:
-        item.minStock !== undefined && item.minStock !== null
-          ? String(item.minStock)
-          : "",
+      minStock: item.minStock != null ? String(item.minStock) : "",
       provider: item.provider ?? "",
       purchaseDate: item.purchaseDate ?? "",
       expiryDate: item.expiryDate ?? "",
     });
     setShowModal(true);
+    setClosingModal(false);
   };
 
+  // --- Cancelar modal ---
   const handleCancel = () => {
-    setShowModal(false);
-    setEditingId(null);
-    setForm({
-      name: "",
-      category: "",
-      quantity: "",
-      price: "",
-      minStock: "",
-      provider: "",
-      purchaseDate: "",
-      expiryDate: "",
-    });
+    setClosingModal(true);
+    setTimeout(() => {
+      setShowModal(false);
+      setEditingId(null);
+      setForm({
+        name: "",
+        category: "",
+        quantity: "",
+        price: "",
+        minStock: "",
+        provider: "",
+        purchaseDate: "",
+        expiryDate: "",
+      });
+      setClosingModal(false);
+    }, 300);
   };
 
+  // --- Guardar producto ---
   const handleSave = (e) => {
     e.preventDefault();
-
     if (!form.name.trim()) {
       alert("El nombre es obligatorio.");
       return;
@@ -119,7 +139,7 @@ const Inventory = () => {
     const msStr = sanitizeIntegerString(String(form.minStock).trim());
 
     const quantity = qStr === "" ? NaN : parseInt(qStr, 10);
-    const price = pStr === "" ? "" : pStr; // 👉 guardar como string exacto
+    const price = pStr === "" ? "" : pStr;
     const minStock = msStr === "" ? NaN : parseInt(msStr, 10);
 
     if (Number.isNaN(quantity) || price === "" || Number.isNaN(minStock)) {
@@ -131,7 +151,7 @@ const Inventory = () => {
       name: form.name.trim(),
       category: form.category.trim(),
       quantity,
-      price, // 👉 string guardado tal cual
+      price,
       minStock,
       provider: form.provider.trim() || "",
       purchaseDate: form.purchaseDate || "",
@@ -150,14 +170,28 @@ const Inventory = () => {
       };
       setItems((prev) => [...prev, newItem]);
     }
-
     handleCancel();
   };
 
-  const handleDelete = (id) => {
-    if (!window.confirm("¿Seguro que deseas eliminar este producto?")) return;
-    setItems((prev) => prev.filter((it) => it.id !== id));
-    if (editingId === id) handleCancel();
+  // --- Modal eliminar ---
+  const confirmDelete = (item) => {
+    setItemToDelete(item);
+    setShowDeleteModal(true);
+    setClosingDeleteModal(false);
+  };
+
+  const handleDeleteConfirmed = () => {
+    setItems((prev) => prev.filter((it) => it.id !== itemToDelete.id));
+    closeDeleteModal();
+  };
+
+  const closeDeleteModal = () => {
+    setClosingDeleteModal(true);
+    setTimeout(() => {
+      setShowDeleteModal(false);
+      setItemToDelete(null);
+      setClosingDeleteModal(false);
+    }, 300);
   };
 
   return (
@@ -168,31 +202,36 @@ const Inventory = () => {
       {/* Resumen */}
       <div className="summary-cards">
         <div className="card info">
-          <span className="icon">📦</span>
+          <div className="icon blue">
+            <ClipboardList className="icon-inner" />
+          </div>
           <div>
             <h3>{totalProducts}</h3>
             <p>Total de productos</p>
           </div>
         </div>
-
         <div className="card warning">
-          <span className="icon">⚠️</span>
+          <div className="icon orange">
+            <AlertTriangle className="icon-inner" />
+          </div>
           <div>
             <h3>{stockLow}</h3>
             <p>Stock Bajo</p>
           </div>
         </div>
-
         <div className="card danger">
-          <span className="icon">📅</span>
+          <div className="icon red">
+            <CalendarDays className="icon-inner" />
+          </div>
           <div>
             <h3>{expired}</h3>
             <p>Vencidos</p>
           </div>
         </div>
-
         <div className="card success">
-          <span className="icon">💰</span>
+          <div className="icon green">
+            <Stethoscope className="icon-inner" />
+          </div>
           <div>
             <h3>L. {totalValue.toFixed(2)}</h3>
             <p>Valor total</p>
@@ -257,18 +296,22 @@ const Inventory = () => {
                     )}
                   </td>
                   <td className="inventory-actions">
-                    <button
-                      className="inventory-btn edit"
-                      onClick={() => handleEdit(item)}
-                    >
-                      ✏️
-                    </button>
-                    <button
-                      className="inventory-btn delete"
-                      onClick={() => handleDelete(item.id)}
-                    >
-                      🗑️
-                    </button>
+                    <div className="action-buttons">
+                      <button
+                        className="action-btn edit"
+                        onClick={() => handleEdit(item)}
+                        title="Editar"
+                      >
+                        <Edit size={16} />
+                      </button>
+                      <button
+                        className="action-btn delete"
+                        onClick={() => confirmDelete(item)}
+                        title="Eliminar"
+                      >
+                        <Trash2 size={16} />
+                      </button>
+                    </div>
                   </td>
                 </tr>
               );
@@ -277,15 +320,24 @@ const Inventory = () => {
         </tbody>
       </table>
 
-      {/* Modal */}
+      {/* Modal Crear/Editar */}
       {showModal && (
-        <div className="modal-overlay">
-          <div className="modal">
+        <div
+          className={`modal-overlay ${closingModal ? "closing" : "active"}`}
+          onClick={(e) =>
+            e.target.classList.contains("modal-overlay") && handleCancel()
+          }
+        >
+          <div className={`modal ${closingModal ? "closing" : "active"}`}>
             <h3>{editingId ? "Editar producto" : "Registrar nuevo producto"}</h3>
             <form className="modal-form" onSubmit={handleSave}>
               <div className="form-row">
                 <label>Nombre *</label>
-                <input name="name" value={form.name} onChange={handleChange} />
+                <input
+                  name="name"
+                  value={form.name}
+                  onChange={handleChange}
+                />
               </div>
               <div className="form-row">
                 <label>Categoría *</label>
@@ -351,14 +403,13 @@ const Inventory = () => {
                   onChange={handleChange}
                 />
               </div>
-
               <div className="modal-actions">
                 <button type="submit" className="inventory-btn add">
                   {editingId ? "Actualizar" : "Guardar"}
                 </button>
                 <button
                   type="button"
-                  className="inventory-btn delete"
+                  className="inventory-btn cancel"
                   onClick={handleCancel}
                 >
                   Cancelar
@@ -368,8 +419,37 @@ const Inventory = () => {
           </div>
         </div>
       )}
+
+      {/* Modal Eliminar */}
+      {showDeleteModal && (
+        <div
+          className={`modal-overlay ${closingDeleteModal ? "closing" : "active"}`}
+        >
+          <div
+            className={`modal delete-modal ${
+              closingDeleteModal ? "closing" : "active"
+            }`}
+          >
+            <h2>¿Eliminar producto?</h2>
+            <p>
+              ¿Estás seguro de que deseas eliminar el producto{" "}
+              <strong>{itemToDelete?.name}</strong>? Esta acción no se puede
+              deshacer.
+            </p>
+            <div className="modal-actions">
+              <button className="btn-danger" onClick={handleDeleteConfirmed}>
+                Sí, eliminar
+              </button>
+              <button className="btn-cancel-alt" onClick={closeDeleteModal}>
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
 export default Inventory;
+
