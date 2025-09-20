@@ -33,12 +33,12 @@ const Inventory = () => {
   });
 
   const totalProducts = items.length;
-  const stockLow = items.filter((i) => i.quantity <= i.minStock).length;
+  const stockLow = items.filter((i) => Number(i.quantity) <= Number(i.minStock)).length;
   const expired = items.filter(
     (i) => i.expiryDate && new Date(i.expiryDate) < new Date()
   ).length;
   const totalValue = items.reduce(
-    (sum, i) => sum + (Number(i.price) || 0) * (Number(i.quantity) || 0),
+    (sum, i) => sum + (parseFloat(i.price) || 0) * (Number(i.quantity) || 0),
     0
   );
 
@@ -75,10 +75,7 @@ const Inventory = () => {
         item.quantity !== undefined && item.quantity !== null
           ? String(item.quantity)
           : "",
-      price:
-        item.price !== undefined && item.price !== null
-          ? String(item.price)
-          : "",
+      price: item.price != null ? String(item.price) : "",
       minStock:
         item.minStock !== undefined && item.minStock !== null
           ? String(item.minStock)
@@ -122,10 +119,10 @@ const Inventory = () => {
     const msStr = sanitizeIntegerString(String(form.minStock).trim());
 
     const quantity = qStr === "" ? NaN : parseInt(qStr, 10);
-    const price = pStr === "" ? NaN : parseFloat(pStr);
+    const price = pStr === "" ? "" : pStr; // 👉 guardar como string exacto
     const minStock = msStr === "" ? NaN : parseInt(msStr, 10);
 
-    if (Number.isNaN(quantity) || Number.isNaN(price) || Number.isNaN(minStock)) {
+    if (Number.isNaN(quantity) || price === "" || Number.isNaN(minStock)) {
       alert("Cantidad, precio y stock mínimo deben ser números válidos.");
       return;
     }
@@ -134,7 +131,7 @@ const Inventory = () => {
       name: form.name.trim(),
       category: form.category.trim(),
       quantity,
-      price, // 👉 Guardar exacto
+      price, // 👉 string guardado tal cual
       minStock,
       provider: form.provider.trim() || "",
       purchaseDate: form.purchaseDate || "",
@@ -237,7 +234,7 @@ const Inventory = () => {
             </tr>
           ) : (
             filteredItems.map((item) => {
-              const isLow = item.quantity <= item.minStock;
+              const isLow = Number(item.quantity) <= Number(item.minStock);
               const isExpired =
                 item.expiryDate && new Date(item.expiryDate) < new Date();
               return (
@@ -245,7 +242,7 @@ const Inventory = () => {
                   <td>{item.name}</td>
                   <td>{item.category}</td>
                   <td>{item.quantity}</td>
-                  <td>L. {(item.price ?? 0).toFixed(2)}</td>
+                  <td>L. {parseFloat(item.price || 0).toFixed(2)}</td>
                   <td>{item.provider || "—"}</td>
                   <td className={isExpired ? "expired" : ""}>
                     {item.expiryDate || "—"}
@@ -312,8 +309,7 @@ const Inventory = () => {
                 <label>Precio (Lps) *</label>
                 <input
                   name="price"
-                  type="number"
-                  step="0.01"
+                  type="text"
                   inputMode="decimal"
                   value={form.price}
                   onChange={handleChange}
