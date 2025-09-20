@@ -112,7 +112,7 @@ function Citas() {
   function handleEliminarConfirmado() {
     if (citaAEliminar) {
       setCitas(citas.filter((c) => c.id !== citaAEliminar.id));
-      setMensaje('Cita.de ${citaAEliminar.dueño} eliminada con éxito);
+      setMensaje('Cita.de ${citaAEliminar.dueño} eliminada con éxito');
       setTimeout(() => setMensaje(""), 3000);
     }
     cerrarConfirmModal();
