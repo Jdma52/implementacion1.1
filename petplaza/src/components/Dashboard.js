@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Users, PawPrint, Calendar, AlertTriangle, User, Package } from "lucide-react";
-import "../css/Dashboard.css";
+import "../CSS/Dashboard.css";
 
 const Dashboard = () => {
   const [stats] = useState({
