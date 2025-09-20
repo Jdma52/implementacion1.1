@@ -43,7 +43,7 @@ function Citas() {
     motivo: "",
     estado: "Programada",
   });
-  //p//
+  //ssss//
   const [mensaje, setMensaje] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [showConfirmModal, setShowConfirmModal] = useState(false);
