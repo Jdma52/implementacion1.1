@@ -4,6 +4,7 @@ import "../CSS/Citas.css";
 
 function Citas() {
   const ejemplos = [
+
     {
       id: 1,
       fecha: "2025-08-24",
@@ -42,6 +43,7 @@ function Citas() {
     motivo: "",
     estado: "Programada",
   });
+  //p//
   const [mensaje, setMensaje] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -110,7 +112,7 @@ function Citas() {
   function handleEliminarConfirmado() {
     if (citaAEliminar) {
       setCitas(citas.filter((c) => c.id !== citaAEliminar.id));
-      setMensaje(Cita de ${citaAEliminar.dueño} eliminada con éxito);
+      setMensaje('Cita.de ${citaAEliminar.dueño} eliminada con éxito');
       setTimeout(() => setMensaje(""), 3000);
     }
     cerrarConfirmModal();
