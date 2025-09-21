@@ -1,4 +1,11 @@
-/*gg*/
+
+.dashboard-module {
+  background: #f9fafb; 
+  padding: 2rem;      
+  border-radius: 0.85rem;
+}
+
+/* Animación */
 .dashboard-module .fade-in {
   opacity: 0;
   transform: translateY(10px);
@@ -67,22 +74,22 @@
 
 .dashboard-module .lists-grid {
   display: flex;
-  gap: 2rem; /* separación horizontal */
+  gap: 2rem; 
   flex-wrap: wrap;
   margin-bottom: 2rem; 
   margin-inline-start: 5rem;
-  justify-content: center; /* centra las tarjetas */
+  justify-content: center; 
 }
 
-/* Tarjetas más anchas y con altura moderada */
+/* Tarjetas  */
 .dashboard-module .card {
   background: #fff;
   padding: 1rem; 
   border-radius: 0.85rem;
   box-shadow: 0 4px 10px rgba(0,0,0,0.06);
-  flex: 1 1 50%; /* ancho mayor */
-  max-width: 500px; /* ancho máximo */
-  min-height: 350px; /* altura moderada */
+  flex: 1 1 50%; 
+  max-width: 500px; 
+  min-height: 350px; 
   display: flex;
   flex-direction: column; 
   overflow: hidden; 
@@ -93,10 +100,10 @@
   box-shadow: 0 8px 16px rgba(0,0,0,0.12);
 }
 
-/* Título de cada lista más grande */
+/* Título de cada lista */
 .dashboard-module .card h2 {
   margin-bottom: 1rem;
-  font-size: 1.5rem; /* más grande para que combine con el texto */
+  font-size: 1.5rem;
   font-weight: 600;
   text-align: left;
 }
@@ -104,7 +111,7 @@
 /* Lista dentro de la tarjeta */
 .dashboard-module .card ul {
   flex-grow: 1; 
-  overflow-y: auto; /* scroll si excede altura */
+  overflow-y: auto; 
   padding: 0;
   margin: 0;
   width: 100%;
@@ -114,7 +121,7 @@
 .dashboard-module .list-item {
   display: flex;
   align-items: center;
-  padding: 0.5rem 0.5rem; /* menos padding para que el texto llegue más al borde */
+  padding: 0.5rem 0.5rem; 
   border-radius: 0.65rem;
   margin-bottom: 0.4rem;
   box-shadow: none;
@@ -127,22 +134,22 @@
   transform: none; 
 }
 
-/* Texto dentro de la lista más ancho y grande */
+/* Texto dentro de la lista */
 .dashboard-module .list-item div {
   pointer-events: auto;
-  width: calc(100% - 28px); /* ocupa casi todo el ancho de la tarjeta */
+  width: calc(100% - 28px); 
 }
 .dashboard-module .list-item div p.font-medium {
-  font-size: 1.25rem; /* nombres más grandes */
+  font-size: 1.25rem; 
   font-weight: 500;
 }
 .dashboard-module .list-item div p.text-sm {
-  font-size: 1.1rem; /* detalles más grandes */
+  font-size: 1.1rem; 
 }
 
-/* Íconos de la lista ajustados */
+/* Íconos de la lista */
 .dashboard-module .list-icon {
-  margin-right: 8px; /* menos separación para que el texto llegue más al borde */
+  margin-right: 8px; 
   min-width: 22px;
   min-height: 22px;
   display: flex;
@@ -155,7 +162,7 @@
 .dashboard-module .list-icon.bg-blue { background: #6366F1; }
 .dashboard-module .list-icon.bg-red { background: #EF4444; }
 
-/* Scroll estético para las listas */
+
 .dashboard-module .card ul::-webkit-scrollbar {
   width: 6px;
 }
@@ -170,7 +177,7 @@
     align-items: center;
   }
   .dashboard-module .card {
-    max-width: 90%; /* se ajusta a pantalla pequeña */
+    max-width: 90%; 
     min-height: 330px;
   }
 }
