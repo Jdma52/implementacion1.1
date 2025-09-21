@@ -1,4 +1,11 @@
 /*gg*/
+.dashboard-module {
+  background: #f9fafb; /* fondo gris claro en todo el módulo */
+  padding: 2rem;      /* espacio interno para que no pegue a los bordes */
+  border-radius: 0.85rem;
+}
+
+/* Animación */
 .dashboard-module .fade-in {
   opacity: 0;
   transform: translateY(10px);
