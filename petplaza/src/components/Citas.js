@@ -346,5 +346,4 @@ function Citas() {
     </div>
   );
 }
-
-export default Citas;
+export default citas;
