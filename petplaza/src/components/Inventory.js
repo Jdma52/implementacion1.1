@@ -17,7 +17,7 @@ const sanitizeIntegerString = (str) => {
 
 const sanitizeFloatString = (str) => {
   if (typeof str !== "string") return str;
-  const cleaned = str.replace(/[^0-9.\-]/g, "");
+  const cleaned = str.replace(/[^0-9.-]/g, "");
   const parts = cleaned.split(".");
   if (parts.length <= 2) return cleaned;
   return parts.shift() + "." + parts.join("");
@@ -27,7 +27,7 @@ const Inventory = () => {
   const [items, setItems] = useState([]);
   const [search, setSearch] = useState("");
   const [showModal, setShowModal] = useState(false);
-  const [closingModal, setClosingModal] = useState(false); // 🔹 nuevo estado
+  const [closingModal, setClosingModal] = useState(false);
   const [editingId, setEditingId] = useState(null);
 
   // Estados para modal eliminar
@@ -68,7 +68,6 @@ const Inventory = () => {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  // --- Abrir modal crear ---
   const openNew = () => {
     setEditingId(null);
     setForm({
@@ -85,7 +84,6 @@ const Inventory = () => {
     setClosingModal(false);
   };
 
-  // --- Editar producto ---
   const handleEdit = (item) => {
     setEditingId(item.id);
     setForm({
@@ -102,7 +100,6 @@ const Inventory = () => {
     setClosingModal(false);
   };
 
-  // --- Cancelar modal ---
   const handleCancel = () => {
     setClosingModal(true);
     setTimeout(() => {
@@ -122,17 +119,8 @@ const Inventory = () => {
     }, 300);
   };
 
-  // --- Guardar producto ---
   const handleSave = (e) => {
     e.preventDefault();
-    if (!form.name.trim()) {
-      alert("El nombre es obligatorio.");
-      return;
-    }
-    if (!form.category.trim()) {
-      alert("La categoría es obligatoria.");
-      return;
-    }
 
     const qStr = sanitizeIntegerString(String(form.quantity).trim());
     const pStr = sanitizeFloatString(String(form.price).trim());
@@ -141,11 +129,6 @@ const Inventory = () => {
     const quantity = qStr === "" ? NaN : parseInt(qStr, 10);
     const price = pStr === "" ? "" : pStr;
     const minStock = msStr === "" ? NaN : parseInt(msStr, 10);
-
-    if (Number.isNaN(quantity) || price === "" || Number.isNaN(minStock)) {
-      alert("Cantidad, precio y stock mínimo deben ser números válidos.");
-      return;
-    }
 
     const payload = {
       name: form.name.trim(),
@@ -173,7 +156,6 @@ const Inventory = () => {
     handleCancel();
   };
 
-  // --- Modal eliminar ---
   const confirmDelete = (item) => {
     setItemToDelete(item);
     setShowDeleteModal(true);
@@ -196,140 +178,151 @@ const Inventory = () => {
 
   return (
     <div className="inventory-container">
-      <h2>Inventario</h2>
-      <p className="subtitle">Gestión de medicamentos y productos médicos.</p>
+      <div className="inventory-content">
+        <h2>Inventario</h2>
+        <p className="subtitle">Gestión de medicamentos y productos médicos.</p>
 
-      {/* Resumen */}
-      <div className="summary-cards">
-        <div className="card info">
-          <div className="icon blue">
-            <ClipboardList className="icon-inner" />
+        {/* Resumen */}
+        <div className="summary-cards">
+          <div className="card info">
+            <div className="icon blue">
+              <ClipboardList className="icon-inner" />
+            </div>
+            <div>
+              <h3>{totalProducts}</h3>
+              <p>Total de productos</p>
+            </div>
           </div>
-          <div>
-            <h3>{totalProducts}</h3>
-            <p>Total de productos</p>
+          <div className="card warning">
+            <div className="icon orange">
+              <AlertTriangle className="icon-inner" />
+            </div>
+            <div>
+              <h3>{stockLow}</h3>
+              <p>Stock Bajo</p>
+            </div>
+          </div>
+          <div className="card danger">
+            <div className="icon red">
+              <CalendarDays className="icon-inner" />
+            </div>
+            <div>
+              <h3>{expired}</h3>
+              <p>Vencidos</p>
+            </div>
+          </div>
+          <div className="card success">
+            <div className="icon green">
+              <Stethoscope className="icon-inner" />
+            </div>
+            <div>
+              <h3>L. {totalValue.toFixed(2)}</h3>
+              <p>Valor total</p>
+            </div>
           </div>
         </div>
-        <div className="card warning">
-          <div className="icon orange">
-            <AlertTriangle className="icon-inner" />
-          </div>
-          <div>
-            <h3>{stockLow}</h3>
-            <p>Stock Bajo</p>
-          </div>
-        </div>
-        <div className="card danger">
-          <div className="icon red">
-            <CalendarDays className="icon-inner" />
-          </div>
-          <div>
-            <h3>{expired}</h3>
-            <p>Vencidos</p>
-          </div>
-        </div>
-        <div className="card success">
-          <div className="icon green">
-            <Stethoscope className="icon-inner" />
-          </div>
-          <div>
-            <h3>L. {totalValue.toFixed(2)}</h3>
-            <p>Valor total</p>
-          </div>
-        </div>
-      </div>
 
-      {/* Toolbar */}
-      <div className="toolbar">
-        <input
-          type="text"
-          placeholder="Buscar productos..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-        <button className="inventory-btn add" onClick={openNew}>
-          + Nuevo Producto
-        </button>
-      </div>
+        {/* Toolbar */}
+        <div className="toolbar">
+          <input
+            type="text"
+            placeholder="Buscar productos..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <button className="inventory-btn add" onClick={openNew}>
+            + Nuevo Producto
+          </button>
+        </div>
 
-      {/* Tabla */}
-      <table className="inventory-table">
-        <thead>
-          <tr>
-            <th>Producto</th>
-            <th>Categoría</th>
-            <th>Cantidad</th>
-            <th>Precio Unidad</th>
-            <th>Proveedor</th>
-            <th>Vencimiento</th>
-            <th>Estado</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredItems.length === 0 ? (
+        {/* Tabla */}
+        <table className="inventory-table">
+          <thead>
             <tr>
-              <td colSpan="8">No hay productos registrados</td>
+              <th>Producto</th>
+              <th>Categoría</th>
+              <th>Cantidad</th>
+              <th>Precio Unidad</th>
+              <th>Proveedor</th>
+              <th>Vencimiento</th>
+              <th>Estado</th>
+              <th>Acciones</th>
             </tr>
-          ) : (
-            filteredItems.map((item) => {
-              const isLow = Number(item.quantity) <= Number(item.minStock);
-              const isExpired =
-                item.expiryDate && new Date(item.expiryDate) < new Date();
-              return (
-                <tr key={item.id}>
-                  <td>{item.name}</td>
-                  <td>{item.category}</td>
-                  <td>{item.quantity}</td>
-                  <td>L. {parseFloat(item.price || 0).toFixed(2)}</td>
-                  <td>{item.provider || "—"}</td>
-                  <td className={isExpired ? "expired" : ""}>
-                    {item.expiryDate || "—"}
-                  </td>
-                  <td>
-                    {isExpired ? (
-                      <span className="status danger">Vencido</span>
-                    ) : isLow ? (
-                      <span className="status warning">Stock bajo</span>
-                    ) : (
-                      <span className="status success">Disponible</span>
-                    )}
-                  </td>
-                  <td className="inventory-actions">
-                    <div className="action-buttons">
-                      <button
-                        className="action-btn edit"
-                        onClick={() => handleEdit(item)}
-                        title="Editar"
-                      >
-                        <Edit size={16} />
-                      </button>
-                      <button
-                        className="action-btn delete"
-                        onClick={() => confirmDelete(item)}
-                        title="Eliminar"
-                      >
-                        <Trash2 size={16} />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              );
-            })
-          )}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {filteredItems.length === 0 ? (
+              <tr>
+                <td colSpan="8">No hay productos registrados</td>
+              </tr>
+            ) : (
+              filteredItems.map((item) => {
+                const isLow = Number(item.quantity) <= Number(item.minStock);
+                const isExpired =
+                  item.expiryDate && new Date(item.expiryDate) < new Date();
+                return (
+                  <tr key={item.id}>
+                    <td>{item.name}</td>
+                    <td>{item.category}</td>
+                    <td>{item.quantity}</td>
+                    <td>L. {parseFloat(item.price || 0).toFixed(2)}</td>
+                    <td>{item.provider || "—"}</td>
+                    <td className={isExpired ? "expired" : ""}>
+                      {item.expiryDate || "—"}
+                    </td>
+                    <td>
+                      {isExpired ? (
+                        <span className="status danger">Vencido</span>
+                      ) : isLow ? (
+                        <span className="status warning">Stock bajo</span>
+                      ) : (
+                        <span className="status success">Disponible</span>
+                      )}
+                    </td>
+                    <td className="inventory-actions">
+                      <div className="action-buttons">
+                        <button
+                          className="action-btn edit"
+                          onClick={() => handleEdit(item)}
+                          title="Editar"
+                        >
+                          <Edit size={16} />
+                        </button>
+                        <button
+                          className="action-btn delete"
+                          onClick={() => confirmDelete(item)}
+                          title="Eliminar"
+                        >
+                          <Trash2 size={16} />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })
+            )}
+          </tbody>
+        </table>
+      </div>
 
       {/* Modal Crear/Editar */}
       {showModal && (
         <div
-          className={`modal-overlay ${closingModal ? "closing" : "active"}`}
+          className={`inventory-modal-overlay ${
+            closingModal ? "closing" : "active"
+          }`}
           onClick={(e) =>
-            e.target.classList.contains("modal-overlay") && handleCancel()
+            e.target.classList.contains("inventory-modal-overlay") &&
+            handleCancel()
           }
         >
-          <div className={`modal ${closingModal ? "closing" : "active"}`}>
-            <h3>{editingId ? "Editar producto" : "Registrar nuevo producto"}</h3>
+          <div
+            className={`inventory-modal ${
+              closingModal ? "closing" : "active"
+            }`}
+          >
+            <h3>
+              {editingId ? "Editar producto" : "Registrar nuevo producto"}
+            </h3>
             <form className="modal-form" onSubmit={handleSave}>
               <div className="form-row">
                 <label>Nombre *</label>
@@ -337,6 +330,7 @@ const Inventory = () => {
                   name="name"
                   value={form.name}
                   onChange={handleChange}
+                  required
                 />
               </div>
               <div className="form-row">
@@ -345,6 +339,7 @@ const Inventory = () => {
                   name="category"
                   value={form.category}
                   onChange={handleChange}
+                  required
                 />
               </div>
               <div className="form-row">
@@ -355,16 +350,21 @@ const Inventory = () => {
                   inputMode="numeric"
                   value={form.quantity}
                   onChange={handleChange}
+                  required
+                  min="1"
                 />
               </div>
               <div className="form-row">
                 <label>Precio (Lps) *</label>
                 <input
                   name="price"
-                  type="text"
+                  type="number"
                   inputMode="decimal"
                   value={form.price}
                   onChange={handleChange}
+                  required
+                  step="0.01"
+                  min="0"
                 />
               </div>
               <div className="form-row">
@@ -375,6 +375,8 @@ const Inventory = () => {
                   inputMode="numeric"
                   value={form.minStock}
                   onChange={handleChange}
+                  required
+                  min="0"
                 />
               </div>
               <div className="form-row">
@@ -423,10 +425,12 @@ const Inventory = () => {
       {/* Modal Eliminar */}
       {showDeleteModal && (
         <div
-          className={`modal-overlay ${closingDeleteModal ? "closing" : "active"}`}
+          className={`inventory-modal-overlay ${
+            closingDeleteModal ? "closing" : "active"
+          }`}
         >
           <div
-            className={`modal delete-modal ${
+            className={`inventory-delete-modal ${
               closingDeleteModal ? "closing" : "active"
             }`}
           >
@@ -452,4 +456,3 @@ const Inventory = () => {
 };
 
 export default Inventory;
-
