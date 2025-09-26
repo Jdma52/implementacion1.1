@@ -1,16 +1,27 @@
-/*CONTENEDOR PRINCIPAL*/
-
+/* ==========================================================
+   CONTENEDOR PRINCIPAL DEL INVENTARIO
+   ========================================================== */
 .inventory-container {
-  background: #fff;
+  background: #f9fafb;
   padding: 2rem;
-  border-radius: 12px;
-  max-width: 1200px;
-  margin: -2rem auto;
+  min-height: calc(100vh - 120px);
   font-family: "Inter", sans-serif;
   color: #111827;
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
 }
 
-.inventory-container h2 {
+.inventory-content {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 1100px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.inventory-content h2 {
   font-size: 1.8rem;
   font-weight: 700;
   margin-bottom: 0.25rem;
@@ -21,8 +32,9 @@
   margin-bottom: 1.5rem;
 }
 
-/*TARJETAS RESUMEN*/
-
+/* ==========================================================
+   TARJETAS RESUMEN (TOTAL, STOCK, VENCIDOS, VALOR)
+   ========================================================== */
 .summary-cards {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -34,7 +46,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #f9fafb;
+  background: #ffffff;
   border-radius: 10px;
   padding: 0.8rem 1.2rem;
   border: 1px solid #e5e7eb;
@@ -58,8 +70,9 @@
   color: #6b7280;
 }
 
-/*ICONOS SVG */
-
+/* ==========================================================
+   ICONOS DE LAS TARJETAS
+   ========================================================== */
 .icon {
   padding: 0.55rem;
   border-radius: 50%;
@@ -80,7 +93,6 @@
   color: #fff;
 }
 
-/* Colores de los iconos */
 .icon.blue {
   background: linear-gradient(135deg, #3b82f6, #2563eb);
 }
@@ -94,13 +106,16 @@
   background: linear-gradient(135deg, #10b981, #059669);
 }
 
-/* BARRA DE HERRAMIENTAS */
-
+/* ==========================================================
+   BARRA DE HERRAMIENTAS (BUSCADOR + BOTÓN NUEVO)
+   ========================================================== */
 .toolbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1.5rem;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 
 .toolbar input {
@@ -109,7 +124,7 @@
   border: 1px solid #d1d5db;
   border-radius: 8px;
   font-size: 0.95rem;
-  margin-right: 1rem;
+  min-width: 220px;
 }
 
 .inventory-btn.add {
@@ -122,6 +137,7 @@
   font-weight: 600;
   font-size: 0.9rem;
   transition: all 0.3s ease;
+  white-space: nowrap;
 }
 
 .inventory-btn.add:hover,
@@ -137,14 +153,16 @@
   box-shadow: 0 0 12px rgba(4, 255, 96, 0.9);
 }
 
-/*TABLA DE PRODUCTOS*/
-
+/* ==========================================================
+   TABLA DE PRODUCTOS
+   ========================================================== */
 .inventory-table {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.95rem;
   border-radius: 10px;
   overflow: hidden;
+  background: #ffffff;
 }
 
 .inventory-table thead {
@@ -170,8 +188,9 @@
   background: #f9fafb;
 }
 
-/*BOTONES DE ACCIONES */
-
+/* ==========================================================
+   BOTONES DE ACCIÓN EN TABLA
+   ========================================================== */
 .inventory-actions {
   display: flex;
   justify-content: center;
@@ -213,8 +232,9 @@
   box-shadow: 0 0 6px rgba(255, 2, 2, 0.8);
 }
 
-/*ESTADOS VISUALES */
-
+/* ==========================================================
+   ESTADOS (STOCK / DISPONIBLE / VENCIDO)
+   ========================================================== */
 .expired {
   color: #dc2626;
   font-weight: 600;
@@ -241,32 +261,32 @@
   color: #991b1b;
 }
 
-/* MODAL DE FORMULARIO*/
-
-.modal-overlay {
+/* ==========================================================
+   MODAL CREAR/EDITAR PRODUCTO
+   ========================================================== */
+.inventory-modal-overlay {
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.5);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 900;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s ease;
 }
 
-.modal-overlay.active {
+.inventory-modal-overlay.active {
   opacity: 1;
   pointer-events: auto;
   animation: fadeInBg 0.3s ease forwards;
 }
 
-.modal-overlay.closing {
+.inventory-modal-overlay.closing {
   animation: fadeOutBg 0.3s ease forwards;
 }
 
-/* Fondo animado */
 @keyframes fadeInBg {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -276,13 +296,12 @@
   to { opacity: 0; }
 }
 
-/* Modal interno */
-.modal {
+.inventory-modal {
   background: #fff;
   padding: 1.2rem;
   border-radius: 10px;
-  width: 320px;
-  max-width: 90%;
+  width: 380px;
+  max-width: 95%;
   max-height: 85vh;
   overflow-y: auto;
   transform: translateY(-20px);
@@ -290,7 +309,7 @@
   animation: slideIn 0.3s ease forwards;
 }
 
-.modal.closing {
+.inventory-modal.closing {
   animation: slideOut 0.3s ease forwards;
 }
 
@@ -303,7 +322,7 @@
   to { opacity: 0; transform: translateY(-20px) scale(0.95); }
 }
 
-.modal h3 {
+.inventory-modal h3 {
   margin: 0 0 0.8rem 0;
   font-size: 1rem;
   font-weight: 600;
@@ -333,7 +352,7 @@
   font-size: 0.85rem;
 }
 
-/* Botones dentro del modal */
+/* Botones modal */
 .modal-actions {
   display: flex;
   justify-content: flex-end;
@@ -341,95 +360,106 @@
   margin-top: 0.8rem;
 }
 
-/* Guardar (verde) */
 .modal-actions .inventory-btn.add {
   background: #159d0b;
   color: #ffffff;
   font-size: 0.8rem;
   padding: 7px 12px;
   border-radius: 6px;
-  transition: all 0.3s ease;
 }
 
-.modal-actions .inventory-btn.add:hover {
-  background: #0e7c08;
-  transform: scale(1.05);
-}
-
-/* Cancelar (gris) */
 .modal-actions .inventory-btn.cancel {
-  background: #941616;
-  color: #e7e7e7;
-  border: 1px solid #941616;
+ background: #941616;
+  color: #ffffff;
   font-size: 0.8rem;
   padding: 7px 12px;
   border-radius: 6px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
   transition: all 0.3s ease;
 }
 
-.modal-actions .inventory-btn.cancel:hover {
-  background: #a41414;
+.modal-actions .inventory-btn.cancel:hover,
+.modal-actions .inventory-btn.cancel:focus {
+  background: #b91c1c;
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.6);
   transform: scale(1.05);
+  outline: none;
 }
 
-/* MODAL ELIMINAR*/
+.modal-actions .inventory-btn.cancel:active {
+  background: #7f1d1d;
+  transform: translateY(0px) scale(0.95);
+  box-shadow: 0 0 12px rgba(255, 0, 0, 0.8);
+}
 
-.delete-modal h2 {
-  margin: 0;
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #065f46;
+/* ==========================================================
+   MODAL CONFIRMAR ELIMINAR
+   ========================================================== */
+.inventory-delete-modal {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  width: 400px;
+  max-width: 95%;
+  text-align: center;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
 }
-.delete-modal p {
-  margin: 0;
-  font-size: 0.9rem;
-  color: #1cc96a;
-  line-height: 1.4;
+
+.inventory-delete-modal h2 {
+  margin: 0 0 0.8rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #dc2626;
 }
-.delete-modal .modal-actions {
+
+.inventory-delete-modal p {
+  font-size: 0.95rem;
+  color: #374151;
+  margin-bottom: 1.2rem;
+}
+
+.inventory-delete-modal .modal-actions {
   display: flex;
   justify-content: center;
-  gap: 0.6rem;
+  gap: 1rem;
+  margin-top: 1rem;
 }
-.delete-modal .btn-danger {
-  background-color: #0cca6b;
+
+.inventory-delete-modal .btn-danger {
+  background: #dc2626;
   color: #fff;
-  border: 2px solid transparent;
-  padding: 0.5rem 0.9rem;
-  font-size: 0.85rem;
-  font-weight: 600;
-  border-radius: 6px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
   cursor: pointer;
-  transition: all 0.3s ease;
-}
-.delete-modal .btn-danger:hover {
-  background-color: #bbf7d0;
-  color: #065f46;
-  border: 2px solid #065f46;
-  box-shadow: 0 0 8px #065f46;
-  transform: translateY(-1px);
-}
-.delete-modal .btn-cancel-alt {
-  background-color: #d1d5db;
-  color: #1f8030;
-  border: 2px solid transparent;
-  padding: 0.5rem 0.9rem;
-  font-size: 0.85rem;
   font-weight: 600;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-.delete-modal .btn-cancel-alt:hover {
-  background-color: #f3f4f6;
-  color: #1e40af;
-  border: 2px solid #1e40af;
-  box-shadow: 0 0 6px #3b82f6;
-  transform: translateY(-1px);
+  transition: background 0.3s ease;
 }
 
-/* RESPONSIVO GENERAL*/
+.inventory-delete-modal .btn-danger:hover {
+  background: #b91c1c;
+}
 
+.inventory-delete-modal .btn-cancel-alt {
+  background: #e5e7eb;
+  color: #374151;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.3s ease;
+}
+
+.inventory-delete-modal .btn-cancel-alt:hover {
+  background: #d1d5db;
+}
+
+/* ==========================================================
+   RESPONSIVO GENERAL
+   ========================================================== */
 @media (max-width: 900px) {
   .summary-cards {
     grid-template-columns: repeat(2, 1fr);
@@ -442,24 +472,11 @@
   }
   .toolbar {
     flex-direction: column;
-    gap: 10px;
   }
   .toolbar input {
-    margin-right: 0;
     width: 100%;
   }
   .inventory-btn.add {
     width: 100%;
-  }
-  .modal {
-    width: 90%;
-    padding: 1rem;
-  }
-  .modal h3 {
-    font-size: 0.95rem;
-  }
-  .form-row input {
-    font-size: 0.8rem;
-    padding: 6px 8px;
   }
 }
