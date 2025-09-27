@@ -9,8 +9,9 @@ import Dueños from "./components/Dueños";
 import Mascotas from "./components/Mascotas";
 import Citas from "./components/Citas";
 import MedicalRecords from "./components/MedicalRecords"; 
-import Facturacion from "./components/Facturacion"
+import Facturacion from "./components/Facturacion";
 import Inventory from "./components/Inventory"; 
+import Reports from "./components/Reports";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -48,11 +49,8 @@ function App() {
         <Routes>
           {/* Todas las rutas usan el Layout */}
           <Route path="/" element={<Layout />}>
-            {/* Ruta raíz */}
             <Route index element={<Dashboard />} />
-            {/* Ruta explícita para /dashboard */}
             <Route path="dashboard" element={<Dashboard />} />
-            {/* Otras rutas */}
             <Route path="users" element={<Users user={user} />} />
             <Route path="owners" element={<Dueños />} />
             <Route path="pets" element={<Mascotas />} />
@@ -60,9 +58,7 @@ function App() {
             <Route path="appointments" element={<Citas />} />
             <Route path="medical-records" element={<MedicalRecords />} />
             <Route path="Facturacion" element={<Facturacion />} />
-
-            {/* Rutas placeholder para que Sidebar no rompa */}
-            <Route path="reports" element={<h1>Reportes (pendiente)</h1>} />
+            <Route path="reports" element={<Reports user={user} />} />
           </Route>
         </Routes>
       )}
